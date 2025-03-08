@@ -5,7 +5,8 @@
 	(uuid "e63e39d7-6ac0-4ffd-8aa3-1841a4541b55")
 	(paper "A4")
 	(title_block
-		(date "mar. 31 mars 2015")
+		(date "2025-03-08")
+		(company "INSA Toulouse - 4A GP")
 	)
 	(lib_symbols
 		(symbol "Connector_Generic:Conn_01x06"
@@ -1940,7 +1941,7 @@
 	)
 	(text "* Indicates a PWM-capable pin"
 		(exclude_from_sim no)
-		(at 177.8 180.34 0)
+		(at 177.8 178.308 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1951,7 +1952,6 @@
 	)
 	(label "RX{slash}0"
 		(at 74.93 77.47 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1962,7 +1962,6 @@
 	)
 	(label "A2"
 		(at 21.59 64.77 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1973,7 +1972,6 @@
 	)
 	(label "4"
 		(at 74.93 67.31 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1984,7 +1982,6 @@
 	)
 	(label "2"
 		(at 74.93 72.39 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1995,7 +1992,6 @@
 	)
 	(label "A3"
 		(at 21.59 67.31 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2006,7 +2002,6 @@
 	)
 	(label "13"
 		(at 74.93 36.83 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2017,7 +2012,6 @@
 	)
 	(label "12"
 		(at 74.93 39.37 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2028,7 +2022,6 @@
 	)
 	(label "~{RESET}"
 		(at 19.05 36.83 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2039,7 +2032,6 @@
 	)
 	(label "*10"
 		(at 74.93 44.45 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2050,7 +2042,6 @@
 	)
 	(label "7"
 		(at 74.93 59.69 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2061,7 +2052,6 @@
 	)
 	(label "SDA{slash}A4"
 		(at 74.93 29.21 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2072,7 +2062,6 @@
 	)
 	(label "8"
 		(at 74.93 49.53 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2083,7 +2072,6 @@
 	)
 	(label "*11"
 		(at 74.93 41.91 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2094,7 +2082,6 @@
 	)
 	(label "*3"
 		(at 74.93 69.85 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2105,7 +2092,6 @@
 	)
 	(label "A1"
 		(at 21.59 62.23 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2116,7 +2102,6 @@
 	)
 	(label "TX{slash}1"
 		(at 74.93 74.93 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2127,7 +2112,6 @@
 	)
 	(label "A0"
 		(at 21.59 59.69 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2138,7 +2122,6 @@
 	)
 	(label "AREF"
 		(at 74.93 31.75 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2149,7 +2132,6 @@
 	)
 	(label "Vin"
 		(at 26.67 26.67 270)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2160,7 +2142,6 @@
 	)
 	(label "*6"
 		(at 74.93 62.23 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2171,7 +2152,6 @@
 	)
 	(label "SCL{slash}A5"
 		(at 74.93 26.67 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2182,7 +2162,6 @@
 	)
 	(label "*9"
 		(at 74.93 46.99 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2193,7 +2172,6 @@
 	)
 	(label "*5"
 		(at 74.93 64.77 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2204,7 +2182,6 @@
 	)
 	(label "IOREF"
 		(at 19.05 34.29 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2215,7 +2192,6 @@
 	)
 	(label "SDA{slash}A4"
 		(at 21.59 69.85 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2226,7 +2202,6 @@
 	)
 	(label "SCL{slash}A5"
 		(at 21.59 72.39 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)

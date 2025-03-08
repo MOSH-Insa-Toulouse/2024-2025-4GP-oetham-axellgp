@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "MyLibGraphite")(type "KiCad")(uri "${KIPRJMOD}/Lib-Symbol/MyLibGraphite.kicad_sym")(options "")(descr ""))
+)
