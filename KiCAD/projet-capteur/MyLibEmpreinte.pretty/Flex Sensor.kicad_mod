@@ -1,0 +1,110 @@
+(footprint "Flex Sensor"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 0 -5 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "446f4841-7436-4b38-a566-afae611c7646")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "Flex Sensor"
+		(at 0 -3 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "502f88a7-09be-45f8-add4-cf6918dc0110")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f543931d-0fc9-49cc-a072-d14f093981ad")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e25be262-083e-4f31-9e54-ba9c11e6cc98")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_rect
+		(start -3 -1.5)
+		(end 3 1.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "8ec945dd-be6c-4dfd-9638-c97a26fa116a")
+	)
+	(fp_text user "Flex Sensor"
+		(at -4.5 3.5 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "8786069c-0091-4407-a91b-7fb97fd9bbc8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+			(justify left bottom)
+		)
+	)
+	(pad "1" thru_hole rect
+		(at -1.5 0)
+		(size 1.7 2.5)
+		(drill 0.762)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "171e1a8e-d7bf-43be-a3dd-0172a4bef7a9")
+	)
+	(pad "2" thru_hole oval
+		(at 1.5 0)
+		(size 1.7 2.5)
+		(drill 0.762)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "14b6ff87-52c2-47de-9fa9-59d65b857534")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/Modeles 3D/HC05.STEP"
+		(offset
+			(xyz 0 -5.5 19)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 90 0)
+		)
+	)
+)
