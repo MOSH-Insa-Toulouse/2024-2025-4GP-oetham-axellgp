@@ -2,6 +2,132 @@
 	(version 20241209)
 	(generator "kicad_symbol_editor")
 	(generator_version "9.0")
+	(symbol "Capteur"
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(property "Reference" "CG1"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "Capteur_1_1"
+			(polyline
+				(pts
+					(xy -7.62 -1.27) (xy -6.35 0) (xy -7.62 1.27) (xy -6.35 2.54) (xy -7.62 3.81) (xy -6.35 5.08) (xy -7.62 6.35)
+					(xy -6.35 7.62) (xy -7.62 8.89) (xy -6.35 10.16) (xy -7.62 11.43)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -6.985 -2.54) (xy 8.89 -2.54) (xy 8.89 19.05) (xy 5.08 19.05) (xy 5.08 2.54) (xy -5.08 2.54)
+					(xy -5.08 19.05) (xy -8.89 19.05) (xy -8.89 -2.54) (xy -6.985 -2.54) (xy 7.62 -2.54)
+				)
+				(stroke
+					(width 0)
+					(type solid)
+				)
+				(fill
+					(type background)
+				)
+			)
+			(polyline
+				(pts
+					(xy 7.62 11.43) (xy 6.35 10.16) (xy 7.62 8.89) (xy 6.35 7.62) (xy 7.62 6.35) (xy 6.35 5.08) (xy 7.62 3.81)
+					(xy 6.35 2.54) (xy 7.62 1.27) (xy 6.35 0) (xy 7.62 -1.27)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(pin input line
+				(at -6.35 21.59 270)
+				(length 2.54)
+				(name "Vcc"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at 6.35 21.59 270)
+				(length 2.54)
+				(name "Sortie"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
 	(symbol "Digital-Potentiometer"
 		(exclude_from_sim no)
 		(in_bom yes)
