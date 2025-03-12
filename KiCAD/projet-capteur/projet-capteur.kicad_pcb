@@ -3680,6 +3680,199 @@
 			)
 		)
 	)
+	(footprint "MyLibEmpreinte:ServoMoteur"
+		(layer "F.Cu")
+		(uuid "76d4f4b7-1113-4f81-9f6c-e749235e1c11")
+		(at 132.46 88.5)
+		(property "Reference" "S1"
+			(at 0 2.77 0)
+			(layer "F.SilkS")
+			(uuid "5844106e-e6ba-4562-81fd-2f07be61b65c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 0 -2.77 0)
+			(layer "F.Fab")
+			(uuid "940bb171-945a-4580-a93f-7f8d68a73510")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "249c1674-29ca-4255-8638-f74faf62d8fa")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "635b260e-d19d-401d-96e4-78f6fc99049c")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(path "/a47a8d48-bd99-4813-b9ed-e96182ab727c")
+		(sheetname "/")
+		(sheetfile "projet-capteur.kicad_sch")
+		(attr through_hole)
+		(fp_line
+			(start -3.94 -1.77)
+			(end 3.94 -1.77)
+			(stroke
+				(width 0.12)
+				(type default)
+			)
+			(layer "F.SilkS")
+			(uuid "f7395a53-fb05-4f56-90c0-7c8f5f227692")
+		)
+		(fp_line
+			(start -3.94 1.77)
+			(end -3.94 -1.77)
+			(stroke
+				(width 0.12)
+				(type default)
+			)
+			(layer "F.SilkS")
+			(uuid "028b46f1-9c0b-498a-a91d-fff254b0a3cc")
+		)
+		(fp_line
+			(start -1.27 -1.77)
+			(end -1.27 1.77)
+			(stroke
+				(width 0.12)
+				(type default)
+			)
+			(layer "F.SilkS")
+			(uuid "5fdb2a38-67fb-47a9-91e2-73cbe617398b")
+		)
+		(fp_line
+			(start 3.94 -1.77)
+			(end 3.94 1.77)
+			(stroke
+				(width 0.12)
+				(type default)
+			)
+			(layer "F.SilkS")
+			(uuid "57ab151a-9fb9-4493-838d-e7cf7be01cd5")
+		)
+		(fp_line
+			(start 3.94 1.77)
+			(end -3.94 1.77)
+			(stroke
+				(width 0.12)
+				(type default)
+			)
+			(layer "F.SilkS")
+			(uuid "ea3a3978-d379-4d67-85f5-dc4a558ca5c2")
+		)
+		(fp_line
+			(start -3.69 -1.52)
+			(end 3.69 -1.52)
+			(stroke
+				(width 0.05)
+				(type default)
+			)
+			(layer "F.CrtYd")
+			(uuid "668ecb9d-936e-46bd-accb-03eb6a92e714")
+		)
+		(fp_line
+			(start -3.69 1.52)
+			(end -3.69 -1.52)
+			(stroke
+				(width 0.05)
+				(type default)
+			)
+			(layer "F.CrtYd")
+			(uuid "425d1451-0cc3-45aa-9ce2-800051739b79")
+		)
+		(fp_line
+			(start 3.69 -1.52)
+			(end 3.69 1.52)
+			(stroke
+				(width 0.05)
+				(type default)
+			)
+			(layer "F.CrtYd")
+			(uuid "548c3be3-0cf4-4435-8613-effedb896dc3")
+		)
+		(fp_line
+			(start 3.69 1.52)
+			(end -3.69 1.52)
+			(stroke
+				(width 0.05)
+				(type default)
+			)
+			(layer "F.CrtYd")
+			(uuid "cd080bc1-eb62-4d65-8328-bd1f6e396b3e")
+		)
+		(pad "1" thru_hole rect
+			(at -2.54 0)
+			(size 1.8 2.54)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 16 "/*11")
+			(pinfunction "Data")
+			(pintype "input")
+			(thermal_bridge_angle 45)
+			(uuid "4c42a6c6-6beb-4f09-8793-a269b87d2ce4")
+		)
+		(pad "2" thru_hole oval
+			(at 0 0)
+			(size 1.8 2.54)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 3 "5V")
+			(pinfunction "Vcc")
+			(pintype "input")
+			(thermal_bridge_angle 45)
+			(uuid "4402736c-5b3b-487b-ba4a-9482ac64b44b")
+		)
+		(pad "3" thru_hole oval
+			(at 2.54 0)
+			(size 1.8 2.54)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net 1 "GND")
+			(pinfunction "GND")
+			(pintype "input")
+			(thermal_bridge_angle 45)
+			(uuid "158a1765-d78c-4d26-8b6b-3648b3a18008")
+		)
+		(embedded_fonts no)
+		(model "${KICAD9_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x03_P2.54mm_Vertical.wrl"
+			(offset
+				(xyz -2.5 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -90)
+			)
+		)
+	)
 	(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P5.08mm_Vertical"
 		(layer "F.Cu")
 		(uuid "9efd46c0-26c1-4860-9b0d-1c39c74c885b")

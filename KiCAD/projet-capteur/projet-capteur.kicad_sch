@@ -2235,6 +2235,132 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "MyLibGraphite:Servo"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "S1"
+				(at 6.35 -3.8099 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "~"
+				(at 6.35 -5.715 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Servo_1_1"
+				(rectangle
+					(start -5.08 -1.27)
+					(end 5.08 -7.62)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(text "Servo Moteur\n"
+					(at 0.254 0.254 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 -10.16 90)
+					(length 2.54)
+					(name "Data"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -10.16 90)
+					(length 2.54)
+					(name "Vcc"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 2.54 -10.16 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "power:+3V3"
 			(power)
 			(pin_names
@@ -2907,6 +3033,16 @@
 	)
 	(wire
 		(pts
+			(xy 93.98 73.66) (xy 93.98 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "69074afd-85c3-45ae-882f-89a27b35ab10")
+	)
+	(wire
+		(pts
 			(xy 171.45 78.74) (xy 171.45 81.28)
 		)
 		(stroke
@@ -2944,6 +3080,16 @@
 			(type default)
 		)
 		(uuid "6f098701-c955-40e6-9e67-d1e7a51b0c46")
+	)
+	(wire
+		(pts
+			(xy 102.87 73.66) (xy 93.98 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6f09d79e-724c-46e0-9165-3cbb7c89b9c5")
 	)
 	(wire
 		(pts
@@ -3227,7 +3373,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 43.18) (xy 80.01 43.18)
+			(xy 67.31 43.18) (xy 93.98 43.18)
 		)
 		(stroke
 			(width 0)
@@ -3254,6 +3400,16 @@
 			(type solid)
 		)
 		(uuid "cfe99980-2d98-4372-b495-04c53027340b")
+	)
+	(wire
+		(pts
+			(xy 107.95 76.2) (xy 107.95 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d1ba42f7-f9d8-44a4-ac8f-62acb3f8cd62")
 	)
 	(wire
 		(pts
@@ -3384,6 +3540,16 @@
 			(type solid)
 		)
 		(uuid "ec76dcc9-9949-4dda-bd76-046204829cb4")
+	)
+	(wire
+		(pts
+			(xy 105.41 76.2) (xy 105.41 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f03bb6f9-d205-4d0c-a933-f1f9b5ea2e1a")
 	)
 	(wire
 		(pts
@@ -3870,6 +4036,28 @@
 		(uuid "7144aeb3-0089-42c5-9cca-876d5a628dd6")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 15.6797 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "5V"
+		(shape bidirectional)
+		(at 105.41 76.2 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "732d7829-c4e9-450d-a7c4-7b7aa139a2e9")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 105.41 82.5944 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4513,6 +4701,73 @@
 			(project "Arduino_Uno"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
 					(reference "J4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_2")
+		(lib_id "power:GND")
+		(at 107.95 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "187d3210-8a4c-400c-9387-5bdc91d7b2f4")
+		(property "Reference" "#PWR05"
+			(at 107.95 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 107.95 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 107.95 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 107.95 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 107.95 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "655909e7-18ac-490d-9da2-5c5060096d5b")
+		)
+		(instances
+			(project "projet-capteur"
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "#PWR05")
 					(unit 1)
 				)
 			)
@@ -5687,6 +5942,79 @@
 			(project "projet-capteur"
 				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
 					(reference "#PWR02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "MyLibGraphite:Servo")
+		(at 105.41 63.5 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a47a8d48-bd99-4813-b9ed-e96182ab727c")
+		(property "Reference" "S1"
+			(at 111.76 67.3099 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "~"
+			(at 111.76 69.215 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MyLibEmpreinte:ServoMoteur"
+			(at 105.41 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 105.41 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 105.41 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "319b55cd-11cf-4970-9966-53e197ae5d1e")
+		)
+		(pin "2"
+			(uuid "66284460-07dc-433d-aeab-e221de9da5dd")
+		)
+		(pin "3"
+			(uuid "34ea8804-2677-4b3f-a7e0-e8d1b7288e8d")
+		)
+		(instances
+			(project ""
+				(path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+					(reference "S1")
 					(unit 1)
 				)
 			)
