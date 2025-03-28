@@ -20,9 +20,10 @@
 
 % These define global texts that are used in headers and titles.
 \title{Low-Tech Graphite Sensor}
-\author{Mathéo HAHN et Axel LONGEPIERRE}
+\author{M.HAHN et A.LONGEPIERRE}
 \date{March 2025}
 \revision{Revision 1}
+\course{MOSH}
 \companylogo{\hfill}
 
 \begin{document}
@@ -50,7 +51,7 @@
 \end{itemize}
 
 \section{General Description}
-This innovative sensor conceptionalized and made by students from the Applied Physics Department of INSA Toulouse is a tool inspired by the publication 
+This innovative sensor, conceptionalized and made by students from the Applied Physics Department of INSA Toulouse, is a tool inspired by the publication 
 \textit{Pencil Drawn Strain Gauges and Chemiresistors on Paper}\footnotemark[\value{footnote}]. This research paper provides a simple, cost-efficient, and highly pedagogical tool for students 
 to master their skills in Physics, Electronics, and Sensor Design. The sensor presented in the publication is a simple piece of paper with a layer of graphite 
 on top of it, deposited by a pencil. 
@@ -64,44 +65,22 @@ sensor.
 % Switch to next column
 \vfill\break
 
-\begin{figure}[h]
-    \begin{circuitikz}[european]
-        \node[op amp] (amp1) {};
-        \node[op amp, below = 0.5cm, xscale = -1] (amp2) {};
-        \draw (amp1.out) |- (amp2.-);
-        \draw (amp2.-) ++(0, 0.3cm) node[circ]{} to +(2,0) node[above left]{5};
-        \draw (amp2.out) to (amp1.+);
-        \draw (amp1.+) ++(0, -0.3cm) node[circ]{} to +(-2,0) node[above right]{2};
-        \draw (amp1.-) to +(-2,0) node[above right]{1};
-        \draw (amp2.+) to +(2,0) node[above left]{4};
-        \draw (amp1.out) +(0,0.5cm) node (Vdd) {$\mathrm{V_{DD}}$};
-        \draw (Vdd.east) to +(1.5,0) node [above left]{6};
-        \draw (amp2.out) +(0,-0.5cm) node (Vss) {$\mathrm{V_{SS}}$};
-        \draw (Vss.west) to +(-1.6,0) node [above right]{3};
-        \draw ($(amp1.north west) + (-0.5,0.5)$) rectangle ($(amp2.south west) + (0.5,-0.5)$);
-    \end{circuitikz}
-    \caption{Pinout and internal circuit}
+\hspace{1pt}
+
+\vspace{0.65cm}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.3\textwidth]{Cover/PCB-Sensor.jpg}
+	\caption{\small{Graphite Sensor connected to the PCB}}
 \end{figure}
 
-\begin{figure}[h]
-    \begin{tikzpicture}
-        \sffamily
-        \begin{axis}[
-            width=7cm,
-            xlabel={Number of LaTeX packages},
-            ytick distance=20,
-            yticklabel={\pgfmathprintnumber{\tick}\%},
-            xmajorgrids, ymajorgrids]
-        \addplot[smooth,mark=*] plot coordinates {
-            (0,4)
-            (5,50)
-            (10,80)
-            (15,95)
-            (20,98)
-        };
-        \end{axis}
-    \end{tikzpicture}
-    \caption{Typical data sheet production efficiency}
+\vspace{1.5cm}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.3\textwidth]{Cover/Electron-Movement.png}
+	\caption{\small{Compression and tension in a granular system}}
 \end{figure}
 
 % For wide tables, a single column layout is better. It can be switched

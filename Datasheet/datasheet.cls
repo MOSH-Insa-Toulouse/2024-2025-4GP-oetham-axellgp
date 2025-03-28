@@ -40,7 +40,7 @@
 \RequirePackage{threeparttable}
 
 % Align figure and table captions to left.
-\RequirePackage[font=bf, skip=5pt, justification=raggedright, format=hang, singlelinecheck=off]{caption}
+\RequirePackage[font={bf, small}, skip=5pt, justification=raggedright, format=hang, singlelinecheck=off]{caption}
 
 % Format hyperlinks as blue and set PDF title based on \title{} in the document.
 \RequirePackage[pdfusetitle]{hyperref}
@@ -64,6 +64,9 @@
 \gdef\@revision{}
 \newcommand{\revision}[1]{\gdef\@revision{#1}}
 
+\gdef\@course{}
+\newcommand{\course}[1]{\gdef\@course{#1}}
+
 % First page title layout is defined here
 \renewcommand{\maketitle}{%
     \twocolumn[%
@@ -71,7 +74,7 @@
         \vspace{1cm}\\
         {\Huge\sffamily\bfseries\@title}\\
         \noindent\rule{\textwidth}{1pt}
-        \medskip
+        \vspace{-1cm}
         ]%
         \pagestyle{normalpage}
         \thispagestyle{firstpage}
@@ -84,7 +87,7 @@
     \fancyhf{}
     \renewcommand{\headrulewidth}{0pt}
     \renewcommand{\footrulewidth}{0.5pt}
-    %\fancyfoot[L]{\@revision}
+    \fancyfoot[L]{\@author}
     \fancyfoot[C]{\@date}
     \fancyfoot[R]{Page \thepage\ of \pageref{LastPage}}
 }
@@ -93,10 +96,9 @@
 \fancypagestyle{normalpage}{
     \renewcommand{\headrulewidth}{0.5pt}
     \renewcommand{\footrulewidth}{0.5pt}
-    \fancyhead[L]{\@author}
     \fancyhead[C]{\slshape\@title}
-    \fancyhead[R]{\@date}
-    \fancyfoot[L]{\@revision}
+    \fancyhead[R]{\@course}
+    \fancyfoot[L]{\@author}
     \fancyfoot[C]{\@date}
     \fancyfoot[R]{Page \thepage\ of \pageref{LastPage}}
 }
