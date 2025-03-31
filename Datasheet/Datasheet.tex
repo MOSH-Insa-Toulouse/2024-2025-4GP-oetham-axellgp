@@ -54,10 +54,10 @@
 This innovative sensor, conceptionalized and made by students from the Applied Physics Department of INSA Toulouse, is a tool inspired by the publication 
 \textit{Pencil Drawn Strain Gauges and Chemiresistors on Paper}\footnotemark[\value{footnote}]. This research paper provides a simple, cost-efficient, and highly pedagogical tool for students 
 to master their skills in Physics, Electronics, and Sensor Design. The sensor presented in the publication is a simple piece of paper with a layer of graphite 
-on top of it, deposited by a pencil. 
+on top of it, deposited with a pencil. 
 
-Due to the graphite deposited on the piece of paper, the electrons are able to move freely from particle to particle due to quantum tunnelling. This effect is
-extremely sensitive to the slightest movement of the piece of paper. We observe that compressing or stretching the graphite will change the resistivity of the 
+Due to the deposited graphite on the piece of paper, the electrons are able to move freely from particle to particle due to quantum tunnelling. This effect is
+extremely sensitive to the slightest movement of the paper. We observe that compressing or stretching the graphite will change the resistivity of the 
 sensor. 
 
 \footnotetext{LIN, Cheng-Wei, ZHAO, Zhibo, KIM, Jaemyung et HUANG, Jiaxing, 2014. Pencil Drawn Strain Gauges and Chemiresistors on Paper. Scientific Reports. 22 janvier 2014. Vol.4, n°1, pp.3812. DOI 10.1038/srep03812.}
@@ -87,6 +87,28 @@ sensor.
 % page-by-page.
 \onecolumn
 
+\section{Electrical Diagram}
+
+\begin{figure}[h!]
+    \centering
+    \captionsetup{justification=centering}
+	\includegraphics[width=0.3\textwidth]{Cover/ElectricDiagramSensor.png}
+	\caption{\small{Schematic of the Graphite Sensor}}
+\end{figure}
+
+\begin{table}[h]
+\caption{Specifications of the electronic layout}
+\begin{tabularx}{\textwidth}{l | c | X}
+    \thickhline
+    \textbf{Parameter} & \textbf{Pin} & \textbf{Symbol} \\
+    \hline
+    Supply Voltage & V$_{CC}$ & 1 \\ 
+    \hline
+    Out Sensor & V$_{out}$ & 2 \\
+    \thickhline
+\end{tabularx}
+\end{table}
+
 \section{Electrical Specifications}
 All specifications are in $-40\degree C \leq T_A \leq 85\degree C$ unless otherwise noted.
 
@@ -112,15 +134,26 @@ All specifications are in $-40\degree C \leq T_A \leq 85\degree C$ unless otherw
 
 \section{Absolute Maximum Ratings}
 
-\begin{table}[h]
-\caption{Absolute Maximum Ratings of Example Data Sheet}
-\begin{tabularx}{\textwidth}{l | X}
+\begin{table}[h!]
+\begin{threeparttable}
+\caption{Absolute Maximum Ratings of the Graphite Sensor}
+\begin{tabularx}{\textwidth}{l | c | c c c | X}
     \thickhline
-    \textbf{Parameter} & \textbf{Rating} \hspace{5cm} \\
+    \textbf{Parameter} & \textbf{Symbol} & \textbf{Min.} & \textbf{Typ.} & \textbf{Max.} & \textbf{Unit} \\
     \hline
-    Daily exposure to LaTeX & 24 hours \\
+    Supply Voltage & V$_{CC}$ & - & 5.0 & - & V \\
+    \hline
+    Temperature & T & 10.0 & - & 30.0 & $^\circ$C \\
+    Humitidy & - & 30 & - & 60 & \% \\
+    \hline
+    Paper Thickness & - & 0.15 & - & 0.30 & mm \\
+    Pencil Tone\tnote{1} & - & 4B & - & 2H & - \\
     \thickhline
 \end{tabularx}
+\begin{tablenotes}
+\item[1]{Corresponds to the US grading system.}
+\end{tablenotes}
+\end{threeparttable}
 \end{table}
 
 \textbf{Note:} Stresses above those listed under Absolute Maximum Ratings can
