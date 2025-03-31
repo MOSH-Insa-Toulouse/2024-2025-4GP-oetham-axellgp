@@ -21,7 +21,7 @@
 % These define global texts that are used in headers and titles.
 \title{Low-Tech Graphite Sensor}
 \author{M.HAHN et A.LONGEPIERRE}
-\date{March 2025}
+\date{April 2025}
 \revision{Revision 1}
 \course{MOSH}
 \companylogo{\hfill}
@@ -90,24 +90,28 @@ sensor.
 \section{Electrical Diagram}
 
 \begin{figure}[h!]
-    \centering
-    \captionsetup{justification=centering}
-	\includegraphics[width=0.3\textwidth]{Cover/ElectricDiagramSensor.png}
-	\caption{\small{Schematic of the Graphite Sensor}}
+    \begin{minipage}[ts]{.47\linewidth}
+        \centering
+        \captionsetup{justification=centering}
+        \includegraphics[width=0.8\textwidth]{Cover/ElectricDiagramSensor.png}
+        \caption{\small{Schematic of the Graphite Sensor}}
+    \end{minipage}
+    \begin{minipage}[b]{.45\linewidth}
+        \centering
+        \caption*{Table 1: Specifications of the Electrical Diagram}
+            \begin{tabularx}{\textwidth}{l | c | X}
+                \thickhline
+                \textbf{Parameter} & \textbf{Pin} & \textbf{Symbol} \\
+                \hline
+                Supply Voltage & V$_{CC}$ & 1 \\ 
+                \hline
+                Out Sensor & V$_{out}$ & 2 \\
+                \thickhline
+            \end{tabularx}
+    \end{minipage}
 \end{figure}
 
-\begin{table}[h]
-\caption{Specifications of the electronic layout}
-\begin{tabularx}{\textwidth}{l | c | X}
-    \thickhline
-    \textbf{Parameter} & \textbf{Pin} & \textbf{Symbol} \\
-    \hline
-    Supply Voltage & V$_{CC}$ & 1 \\ 
-    \hline
-    Out Sensor & V$_{out}$ & 2 \\
-    \thickhline
-\end{tabularx}
-\end{table}
+\setcounter{table}{1}
 
 \section{Electrical Specifications}
 All specifications are in $-40\degree C \leq T_A \leq 85\degree C$ unless otherwise noted.
