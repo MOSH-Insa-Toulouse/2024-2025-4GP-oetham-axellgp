@@ -32,6 +32,7 @@
 % Useful symbol and color definitions
 \RequirePackage{gensymb}
 \RequirePackage{xcolor}
+\RequirePackage{amsmath}
 
 % These packages allow full-width tables and combining cells in tables.
 \RequirePackage{multirow}

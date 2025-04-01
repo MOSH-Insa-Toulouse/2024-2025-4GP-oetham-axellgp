@@ -47,6 +47,7 @@
 
 \begin{itemize}
 \item{Test findings of \it{Pencil Drawn Strain Gauges and Chemiresistors on Paper}\footnotemark{}}
+\item{Applied using a transimpedance amplifier connected to the ADC of an Arduino card}
 \item{Pedagogical tool for students to design and implement their own PCB design}
 \end{itemize}
 
@@ -103,9 +104,9 @@ sensor.
                 \thickhline
                 \textbf{Parameter} & \textbf{Pin} & \textbf{Symbol} \\
                 \hline
-                Supply Voltage & V$_{CC}$ & 1 \\ 
+                Supply Voltage & V$_{\text{CC}}$ & 1 \\ 
                 \hline
-                Out Sensor & V$_{out}$ & 2 \\
+                Out Sensor & V$_{\text{out}}$ & 2 \\
                 \thickhline
             \end{tabularx}
     \end{minipage}
@@ -145,7 +146,7 @@ All specifications are in $-40\degree C \leq T_A \leq 85\degree C$ unless otherw
     \thickhline
     \textbf{Parameter} & \textbf{Symbol} & \textbf{Min.} & \textbf{Typ.} & \textbf{Max.} & \textbf{Unit} \\
     \hline
-    Supply Voltage & V$_{CC}$ & - & 5.0 & - & V \\
+    Supply Voltage & V$_{\text{CC}}$ & - & 5.0 & - & V \\
     \hline
     Temperature & T & 10.0 & - & 30.0 & $^\circ$C \\
     Humitidy & - & 30 & - & 60 & \% \\
@@ -160,10 +161,32 @@ All specifications are in $-40\degree C \leq T_A \leq 85\degree C$ unless otherw
 \end{threeparttable}
 \end{table}
 
-\textbf{Note:} Stresses above those listed under Absolute Maximum Ratings can
-cause permanent damage to the device. This is a stress rating only. Functional
-operation of the device is not implied in any conditions above those indicated
-in the Electrical Specifications section.
+\textbf{Note:}
+
+\newpage
+
+\section{Applications}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\textwidth]{Cover/TransimpedanceAmp.png}
+    \captionsetup{justification=centering}
+	\caption{\small{The transimpedance amplifier found on our board}}
+\end{figure}
+
+The sensor is connected to a transimpedance amplifier circuit. The circuit is equiped with a 
+low-pass and high-pass filters to cancel out the noise due to the 50Hz from the sector and the amplification 
+of the signal. 
+
+The output signal of the amplifier, in our application, is transmitted to the Analog-to-digital (ADC) converter on the Arduino Uno
+card. We have to make sure that the signal the ADC receives does not saturate it, thus the need for this type of amplifier. 
+
+On our PCB, we have installed a digital potentiometer in lieu of the $\text{R}_2$ resistance in order to match the amplification of the circuit
+for each pencil tone. We can calculate the value of this resistance, knowing the value of the final voltage, with the following formula :
+
+\begin{equation*}
+    R_{dp} = \frac{V_{CC}}{V_{ADC}}\times R_1\Big(1 + \frac{R_3}{R_2}\Big) - R_1 - R_5
+\end{equation*}
 
 \end{document}
 
