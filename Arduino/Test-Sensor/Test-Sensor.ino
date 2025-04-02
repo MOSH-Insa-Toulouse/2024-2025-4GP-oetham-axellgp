@@ -33,7 +33,7 @@ Servo myServo;
 RunningAverage myRA(20);
 SoftwareSerial mySerial(RX_PIN, TX_PIN);
 
-byte position = 0;
+// byte position = 0;
 volatile int encoder0Pos = 0;
 int posmoteur = 0, oldPOSencodeur = 0;
 unsigned long previousMillis = 0;
@@ -48,6 +48,7 @@ void setup() {
   
   if(!ecranOLED.begin(SSD1306_SWITCHCAPVCC, adresseI2CecranOLED))
     while(1);     
+
   ecranOLED.clearDisplay();
   pinMode(encoder0PinA, INPUT); 
   digitalWrite(encoder0PinA, HIGH);       // turn on pullup resistor
@@ -69,15 +70,27 @@ void loop() {
     case 1:
       Serial.println(analogRead(flexPin));
       break;
+
     case 2 :
-      myServo.write(posmoteur);
+      if (mySerial.available()) {
+      // Lire les données de mySerial
+        char data_Servo = mySerial.read();
+        // Envoyer les données à Serial
+        Serial.print(data_Servo);
+        myServo.write(data_Servo);
+
+        // Increment the position of the servo motor
+        data_Servo++;
+      }
+
       delay(100);
-      posmoteur++;
       break;
+
     case 3 ://encodeur
       Serial.println (encoder0Pos, DEC);
       break;
-    case 4 : // bleutooth
+
+    case 4 : // bluetooth
       if (mySerial.available()) {
       // Lire les données de mySerial
       char data = mySerial.read();
@@ -85,7 +98,7 @@ void loop() {
       Serial.print(data);
       }
 
-  // Vérifier si des données sont disponibles sur Serial
+      // Vérifier si des données sont disponibles sur Serial
       if (Serial.available()) {
         // Lire les données de Serial
         char data = Serial.read();
@@ -93,9 +106,12 @@ void loop() {
         mySerial.print(data);
       }
       break;
+
     case 5 : //oled
       
       menuChoice();
+
+      break;
 
     case 6:
     
@@ -107,8 +123,31 @@ void loop() {
       myRA.addValue(analogRead(flexPin));
       
       Serial.println(myRA.getAverage());
-    }
+
+      break;
   }
+}
+
+void doEncoder() {
+  if (digitalRead(encoder0PinA)==HIGH && digitalRead(encoder0PinB)==HIGH) {
+    encoder0Pos++;
+  } 
+  else if (digitalRead(encoder0PinA)==HIGH && digitalRead(encoder0PinB)==LOW) {
+    encoder0Pos--;   
+  }
+  // encoder0Pos %= 3;
+
+  //Serial.println (encoder0PinA, DEC);  //Angle = (360 / Encoder_Resolution) * encoder0Pos
+}
+
+float flexSensor() {
+  float ADCflex = analogRead(flexPin);
+  int VCC = 5; // 5V
+  int R_DIV = 1000;
+  float Vflex = ADCflex * VCC / 1024.0;
+  float Rflex = R_DIV * (VCC / Vflex - 1.0);
+
+  return Rflex;
 }
 
 /*    
@@ -122,6 +161,8 @@ void menuChoice() {
 
   unsigned long currentMillis = millis();
 
+  int OK_Blue = 1;
+
   if (currentMillis - previousMillis >= 500) {
     previousMillis = currentMillis;
     ecranOLED.clearDisplay();                                   // Effaçage de l'intégralité du buffer
@@ -132,14 +173,38 @@ void menuChoice() {
     ecranOLED.setTextSize(1);
 
     switch (abs(encoder0Pos)) {
-      case 0 :                                 // Déplacement du curseur en position (0,0), c'est à dire dans l'angle supérieur gauche
-        ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE);
-        ecranOLED.println("1. Graphite Sensor");
-        ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);   // Couleur du texte, et couleur du fond
-                            // Affichage du texte en "blanc" (avec la couleur principale, en fait, car l'écran monochrome peut être coloré)
-        ecranOLED.println("2. Flex Sensor");
-        ecranOLED.println("3. Servo Motor");
-        ecranOLED.display(); 
+      case 0 :  
+        
+        if (OK_Blue == 0) {
+          ecranOLED.clearDisplay(); 
+          ecranOLED.setCursor(0, 0);
+          ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE);
+          ecranOLED.println("1. Graphite Sensor");
+          ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);   // Couleur du texte, et couleur du fond
+                              // Affichage du texte en "blanc" (avec la couleur principale, en fait, car l'écran monochrome peut être coloré)
+          ecranOLED.println("2. Flex Sensor");
+          ecranOLED.println("3. Servo Motor");
+          ecranOLED.display();
+        }                               // Déplacement du curseur en position (0,0), c'est à dire dans l'angle supérieur gauche
+        
+        if (OK_Blue == 1) {
+          char chaine[10];
+          float value = flexSensor();
+          dtostrf(value, 5, 2, chaine);
+          Serial.println(chaine);
+          ecranOLED.clearDisplay();
+          ecranOLED.setCursor(0, 0);
+          ecranOLED.setTextSize(2);
+          ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
+          ecranOLED.println("--Menu 1--");
+          ecranOLED.setTextSize(1);
+          ecranOLED.println("Graphite Sensor");
+          ecranOLED.setTextSize(1);
+          ecranOLED.println("");
+          ecranOLED.print(chaine);
+          ecranOLED.print(" Ohms");
+          ecranOLED.display();
+        }
         break;
       
       case 1 :
@@ -165,20 +230,6 @@ void menuChoice() {
   delay(50);
 }
 
-
-void doEncoder() {
-  if (digitalRead(encoder0PinA)==HIGH && digitalRead(encoder0PinB)==HIGH) {
-    encoder0Pos++;
-  } 
-  else if (digitalRead(encoder0PinA)==HIGH && digitalRead(encoder0PinB)==LOW) {
-    encoder0Pos--;   
-  }
-  encoder0Pos %= 3;
-
-  //Serial.println (encoder0PinA, DEC);  //Angle = (360 / Encoder_Resolution) * encoder0Pos
-}
-
-
 void SPIWrite(uint8_t cmd, uint8_t data, uint8_t ssPin) // SPI write the command and data to the MCP IC connected to the ssPin
 {
   SPI.beginTransaction(SPISettings(14000000, MSBFIRST, SPI_MODE0)); //https://www.arduino.cc/en/Reference/SPISettings
@@ -191,4 +242,6 @@ void SPIWrite(uint8_t cmd, uint8_t data, uint8_t ssPin) // SPI write the command
   digitalWrite(ssPin, HIGH);// SS pin high to de-select chip
   SPI.endTransaction();
 }
+
+
 
