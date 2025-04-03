@@ -38,6 +38,7 @@ volatile int encoder0Pos = 0;
 int posmoteur = 0, oldPOSencodeur = 0;
 unsigned long previousMillis = 0;
 
+
 void setup() {
   myRA.clear();
   pinMode (ssMCPin, OUTPUT); //select pin output
@@ -143,7 +144,7 @@ void doEncoder() {
 float flexSensor() {
   float ADCflex = analogRead(flexPin);
   int VCC = 5; // 5V
-  int R_DIV = 1000;
+  int R_DIV = 10000;
   float Vflex = ADCflex * VCC / 1024.0;
   float Rflex = R_DIV * (VCC / Vflex - 1.0);
 
@@ -161,7 +162,11 @@ void menuChoice() {
 
   unsigned long currentMillis = millis();
 
-  int OK_Blue = 1;
+  /*if (Serial.available() > 0) {
+    OK_Blue = Serial.read();
+    Serial.println(OK_Blue);
+  } */ 
+  int OK_Blue = 0;
 
   if (currentMillis - previousMillis >= 500) {
     previousMillis = currentMillis;
@@ -176,14 +181,12 @@ void menuChoice() {
       case 0 :  
         
         if (OK_Blue == 0) {
-          ecranOLED.clearDisplay(); 
-          ecranOLED.setCursor(0, 0);
           ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE);
-          ecranOLED.println("1. Graphite Sensor");
+          ecranOLED.println(F("1. Graphite Sensor"));
           ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);   // Couleur du texte, et couleur du fond
                               // Affichage du texte en "blanc" (avec la couleur principale, en fait, car l'écran monochrome peut être coloré)
-          ecranOLED.println("2. Flex Sensor");
-          ecranOLED.println("3. Servo Motor");
+          ecranOLED.println(F("2. Flex Sensor"));
+          ecranOLED.println(F("3. Servo Motor"));
           ecranOLED.display();
         }                               // Déplacement du curseur en position (0,0), c'est à dire dans l'angle supérieur gauche
         
@@ -191,31 +194,50 @@ void menuChoice() {
           char chaine[10];
           float value = flexSensor();
           dtostrf(value, 5, 2, chaine);
-          Serial.println(chaine);
+          //Serial.println(chaine);
           ecranOLED.clearDisplay();
           ecranOLED.setCursor(0, 0);
           ecranOLED.setTextSize(2);
           ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
-          ecranOLED.println("--Menu 1--");
+          ecranOLED.println(F("--Menu 1--"));
           ecranOLED.setTextSize(1);
-          ecranOLED.println("Graphite Sensor");
+          ecranOLED.println(F("Graphite Sensor"));
           ecranOLED.setTextSize(1);
-          ecranOLED.println("");
+          ecranOLED.println(F(""));
           ecranOLED.print(chaine);
-          ecranOLED.print(" Ohms");
+          ecranOLED.print(F(" Ohms"));
           ecranOLED.display();
         }
         break;
       
       case 1 :
-          
       // ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE); 
-        ecranOLED.println("1. Graphite Sensor");         
-        ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE);         
-        ecranOLED.println("2. Flex Sensor");
-        ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
-        ecranOLED.println("3. Servo Motor");
-        ecranOLED.display(); 
+        if (OK_Blue == 0) {
+          ecranOLED.println(F("1. Graphite Sensor"));         
+          ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE);         
+          ecranOLED.println(F("2. Flex Sensor"));
+          ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
+          ecranOLED.println(F("3. Servo Motor"));
+          ecranOLED.display(); 
+        }
+
+        if (OK_Blue == 1) {
+          char chaine[10];
+          float value = flexSensor();
+          dtostrf(value, 5, 2, chaine);
+          ecranOLED.clearDisplay();
+          ecranOLED.setCursor(0, 0);
+          ecranOLED.setTextSize(2);
+          ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
+          ecranOLED.println(F("--Menu 2--"));
+          ecranOLED.setTextSize(1);
+          ecranOLED.println(F("Flex Sensor"));
+          ecranOLED.println(F(""));
+          ecranOLED.print(chaine);
+          ecranOLED.print(F(" Ohms"));
+          ecranOLED.display(); 
+        }
+        
         break;
 
       case 2 :
@@ -226,8 +248,9 @@ void menuChoice() {
         ecranOLED.display(); 
         break;
     }
-  }
-  delay(50);
+  } 
+  Serial.flush();
+  delay(100);
 }
 
 void SPIWrite(uint8_t cmd, uint8_t data, uint8_t ssPin) // SPI write the command and data to the MCP IC connected to the ssPin
