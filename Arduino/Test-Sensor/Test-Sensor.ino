@@ -256,11 +256,13 @@ void menuChoice() {
           break;
 
         case 2 :
-          ecranOLED.println("1. Graphite Sensor");         
-          ecranOLED.println("2. Flex Sensor");
-          ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE); 
-          ecranOLED.println("3. Servo Motor");
-          ecranOLED.display(); 
+          ecranOLED.clearDisplay();
+          ecranOLED.setCursor(0, 0);
+          ecranOLED.setTextSize(2);
+          ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
+          ecranOLED.println(F("--Menu 3--"));
+          ecranOLED.setTextSize(1);
+          ecranOLED.println(F("Servo Motor"));
           break;
       }
     }
