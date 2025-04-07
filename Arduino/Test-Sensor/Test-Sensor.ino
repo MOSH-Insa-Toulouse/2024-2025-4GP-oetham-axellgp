@@ -36,7 +36,8 @@ SoftwareSerial mySerial(RX_PIN, TX_PIN);
 // byte position = 0;
 volatile int encoder0Pos = 0;
 int posmoteur = 0, oldPOSencodeur = 0;
-unsigned long previousMillis = 0;
+unsigned long previousMillis = 0, previousMillis2 = 0;
+char OK_Blue = '0';
 
 
 void setup() {
@@ -63,7 +64,7 @@ void setup() {
   myServo.attach(9);
   Serial.begin(9600);
   mySerial.begin(9600);
-  Serial.println(F("[MCP Digital Pot Test]"));
+  Serial.println(F("[Arduino Sensor - HAHN & LONGEPIERRE]"));
 }
 
 void loop() {
@@ -126,17 +127,20 @@ void loop() {
       Serial.println(myRA.getAverage());
 
       break;
+      
   }
 }
 
 void doEncoder() {
-  if (digitalRead(encoder0PinA)==HIGH && digitalRead(encoder0PinB)==HIGH) {
-    encoder0Pos++;
-  } 
-  else if (digitalRead(encoder0PinA)==HIGH && digitalRead(encoder0PinB)==LOW) {
-    encoder0Pos--;   
+  if (OK_Blue != '1') {
+    if (digitalRead(encoder0PinA)==HIGH && digitalRead(encoder0PinB)==HIGH) {
+      encoder0Pos++;
+    } 
+    else if (digitalRead(encoder0PinA)==HIGH && digitalRead(encoder0PinB)==LOW) {
+      encoder0Pos--;   
+    }
+    encoder0Pos %= 3;
   }
-  // encoder0Pos %= 3;
 
   //Serial.println (encoder0PinA, DEC);  //Angle = (360 / Encoder_Resolution) * encoder0Pos
 }
@@ -151,6 +155,7 @@ float flexSensor() {
   return Rflex;
 }
 
+
 /*    
 *     Menu Choice :
 *     1 : Graphite Sensor
@@ -158,18 +163,133 @@ float flexSensor() {
 *     3 : Servo Motor
 */
 
-void menuChoice() {
+void menuChoice() { 
 
   unsigned long currentMillis = millis();
-
-  /*if (Serial.available() > 0) {
-    OK_Blue = Serial.read();
-    Serial.println(OK_Blue);
-  } */ 
-  int OK_Blue = 0;
+  unsigned long currentMillis2 = millis();
+  float value;
 
   if (currentMillis - previousMillis >= 500) {
     previousMillis = currentMillis;
+
+    /*
+    if (Serial.available() > 0) {
+     OK_Blue = Serial.read();
+     Serial.println(OK_Blue);
+     Serial.flush();
+    } 
+    */
+
+    if (OK_Blue == '0') {
+      ecranOLED.clearDisplay();                                   // Effaçage de l'intégralité du buffer
+      ecranOLED.setTextSize(2);                   // Taille des caractères (1:1, puis 2:1, puis 3:1)
+      ecranOLED.setCursor(0, 0);
+      ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
+      ecranOLED.println(F("---MENU---"));
+      ecranOLED.setTextSize(1);
+
+      switch (abs(encoder0Pos)) {
+        case 0 :
+          ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE);
+          ecranOLED.println(F("1. Graphite Sensor"));
+          ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);   // Couleur du texte, et couleur du fond
+                              // Affichage du texte en "blanc" (avec la couleur principale, en fait, car l'écran monochrome peut être coloré)
+          ecranOLED.println(F("2. Flex Sensor"));
+          ecranOLED.println(F("3. Servo Motor"));
+          ecranOLED.display();
+          break;
+
+        case 1 :
+          ecranOLED.println(F("1. Graphite Sensor"));         
+          ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE);         
+          ecranOLED.println(F("2. Flex Sensor"));
+          ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
+          ecranOLED.println(F("3. Servo Motor"));
+          ecranOLED.display(); 
+          break;
+
+        case 2 :
+          ecranOLED.println("1. Graphite Sensor");         
+          ecranOLED.println("2. Flex Sensor");
+          ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE); 
+          ecranOLED.println("3. Servo Motor");
+          ecranOLED.display(); 
+          break;
+      }
+    }  
+
+    if (OK_Blue == '1') {
+
+      switch (abs(encoder0Pos)) {
+        case 0 :
+          value = flexSensor();
+          dtostrf(value, 5, 2, chaine);
+          //Serial.println(chaine);
+          ecranOLED.clearDisplay();
+          ecranOLED.setCursor(0, 0);
+          ecranOLED.setTextSize(2);
+          ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
+          ecranOLED.println(F("--Menu 1--"));
+          ecranOLED.setTextSize(1);
+          ecranOLED.println(F("Graphite Sensor"));
+          ecranOLED.setTextSize(1);
+          ecranOLED.println(F(""));
+          ecranOLED.print(chaine);
+          ecranOLED.print(F(" Ohms"));
+          ecranOLED.display();
+          break;
+
+        case 1 :
+          value = flexSensor();
+          dtostrf(value, 5, 2, chaine);
+          ecranOLED.clearDisplay();
+          ecranOLED.setCursor(0, 0);
+          ecranOLED.setTextSize(2);
+          ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
+          ecranOLED.println(F("--Menu 2--"));
+          ecranOLED.setTextSize(1);
+          ecranOLED.println(F("Flex Sensor"));
+          ecranOLED.println(F(""));
+          ecranOLED.print(chaine);
+          ecranOLED.print(F(" Ohms"));
+          ecranOLED.display(); 
+          break;
+
+        case 2 :
+          ecranOLED.println("1. Graphite Sensor");         
+          ecranOLED.println("2. Flex Sensor");
+          ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE); 
+          ecranOLED.println("3. Servo Motor");
+          ecranOLED.display(); 
+          break;
+      }
+    }
+
+    if (currentMillis2 - previousMillis2 >= 5000) {
+      previousMillis2 = currentMillis2;
+      if (OK_Blue == '1')
+        OK_Blue = '0';
+      else
+        OK_Blue = '1';
+    }
+  }
+  delay(100);
+}
+
+/*
+
+void menuChoice() { 
+
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - previousMillis >= 500) {
+    previousMillis = currentMillis;
+
+    if (Serial.available() > 0) {
+     OK_Blue = Serial.read();
+     Serial.println(OK_Blue);
+    }
+
     ecranOLED.clearDisplay();                                   // Effaçage de l'intégralité du buffer
     ecranOLED.setTextSize(2);                   // Taille des caractères (1:1, puis 2:1, puis 3:1)
     ecranOLED.setCursor(0, 0);
@@ -180,7 +300,7 @@ void menuChoice() {
     switch (abs(encoder0Pos)) {
       case 0 :  
         
-        if (OK_Blue == 0) {
+        if (OK_Blue == '0') {
           ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE);
           ecranOLED.println(F("1. Graphite Sensor"));
           ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);   // Couleur du texte, et couleur du fond
@@ -190,7 +310,7 @@ void menuChoice() {
           ecranOLED.display();
         }                               // Déplacement du curseur en position (0,0), c'est à dire dans l'angle supérieur gauche
         
-        if (OK_Blue == 1) {
+        if (OK_Blue == '1') {
           char chaine[10];
           float value = flexSensor();
           dtostrf(value, 5, 2, chaine);
@@ -212,7 +332,7 @@ void menuChoice() {
       
       case 1 :
       // ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE); 
-        if (OK_Blue == 0) {
+        if (OK_Blue == '0') {
           ecranOLED.println(F("1. Graphite Sensor"));         
           ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE);         
           ecranOLED.println(F("2. Flex Sensor"));
@@ -221,7 +341,7 @@ void menuChoice() {
           ecranOLED.display(); 
         }
 
-        if (OK_Blue == 1) {
+        if (OK_Blue == '1') {
           char chaine[10];
           float value = flexSensor();
           dtostrf(value, 5, 2, chaine);
@@ -248,10 +368,11 @@ void menuChoice() {
         ecranOLED.display(); 
         break;
     }
-  } 
-  Serial.flush();
+  }
   delay(100);
 }
+
+*/
 
 void SPIWrite(uint8_t cmd, uint8_t data, uint8_t ssPin) // SPI write the command and data to the MCP IC connected to the ssPin
 {
