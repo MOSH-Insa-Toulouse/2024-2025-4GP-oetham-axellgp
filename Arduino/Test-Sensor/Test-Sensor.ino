@@ -26,6 +26,7 @@
 #define ssMCPin                 10
 
 #define etat                    5
+#define bufferSize              16
 
 const byte csPin               = 10;
 const int maxPositions         = 256;
@@ -35,7 +36,7 @@ const byte pot0                = 0x11;
 const byte pot0shutdown        = 0x21;
 
 float R3;
-char * bufferInput;
+char bufferInput[bufferSize];
 
 // Définir les broches pour SoftwareSerial
 Adafruit_SSD1306 ecranOLED(nombreDePixelsEnLargeur, nombreDePixelsEnHauteur, &Wire, brocheResetOLED);
@@ -202,35 +203,26 @@ int servoMotor() {
   int val = 0;
   static int xd = 0;
   char str[256];
-  int i=0;
-  while(Serial.available()){
+  int i = 0;
+
+  if(Serial.available()) {
     do{
-      bufferInput[i++]=(char)Serial.read();
-      delay(3);
-    }while(Serial.available()>0);
+      bufferInput[i] = (char) Serial.read();
+      i++;
+      delay(5);
+    } while(Serial.available () > 0);
+
+    Serial.println(bufferInput);
+    Serial.println("DONE");
+
+    bytes = atoi(bufferInput);
+
+    if (bytes == 1234) {
+      Serial.println("GOOD JOB");
+    }
   }
-  Serial.println(bufferInput);
   
   return val;
-
-  /* 
-  int taille;
-char * buffer;
-
-if (taille = Serial.available() > 0) {
-	
-	
-	for (int i = 0; i < taille; i++) {
-		buffer[i] = (char) Serial.read();
-		delay(3);
-	}
-	buffer[taille] = '\0';
-
-}
-
-Serial.println(buffer); */
-}
-
 
 /*    
 *     Menu Choice :

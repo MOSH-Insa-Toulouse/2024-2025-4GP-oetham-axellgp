@@ -2,7 +2,7 @@
 
 ## Contexte
 
-Projet réalisé dans le cadre du cours "du capteur au banc de test", lors du deuxième semestre de l'année 2024-2025 de la formation 4ème année Génie Physique. Notre point de référence est l'article "Pencil Drawn Strain Gauges and Chemiresistors on Paper" (Cheng-Wei Lin, Zhibo Zhao, Jaemyung Kim & Jiaxing Huang). Notre capteur est composé d'un simple bout de papier avec du graphite déposé dessus par un crayon à papier. Avec une simple déformation du papier, nous pouvons mesurer la déformation des particules. Le système granulaire du papier subit une modification de résistance et de conductance. Ainsi, nous pourrons utiliser ce capteur comme une jauge de contrainte traditionnelle.
+Projet réalisé dans le cadre du cours "du capteur au banc de test", lors du deuxième semestre de l'année 2024-2025 de la formation 4ème année Génie Physique. Notre point de référence est l'article _"Pencil Drawn Strain Gauges and Chemiresistors on Paper"_ (Cheng-Wei Lin, Zhibo Zhao, Jaemyung Kim & Jiaxing Huang). Notre capteur est composé d'un simple bout de papier avec du graphite déposé dessus par un crayon à papier. Avec une simple déformation du papier, nous pouvons mesurer la déformation des particules. Le système granulaire du papier subit une modification de résistance et de conductance. Ainsi, nous pourrons utiliser ce capteur comme une jauge de contrainte traditionnelle.
 
 L'objectif de ce projet est de pouvoir réaliser, étape par étape, un dispositif qui nous permettra de mesurer une déformation d'un capteur low-tech.
 
@@ -63,6 +63,8 @@ La résistance $\text{R}_2$ a été remplace par un potentiomètre numérique de
 - Un module bluetooth HC-05
 
 Ensuite, nous avons commencé par réaliser les symboles des composants avec leur schéma électrique sur la partie schématique de KiCAD. Le schéma électrique de l'ensemble de notre shield :
+
+![design-sch](/Photos/SCH.png)
 
 Par la suite, nous avons créé les empreintes de nos composants puis placées sur notre PCB sur la face PCB de KiCAD. Notre objectif pendant le routage était d'éviter les vias entraînées par le placement des composants. Le PCB créé sur le logiciel :
 
