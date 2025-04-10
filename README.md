@@ -23,6 +23,7 @@ L'objectif de ce projet est de pouvoir réaliser, étape par étape, un disposit
 - [Livrables](#livrables)
 - [Simulation sur LTSpice](#simulation-sur-ltspice)
 - [Design du PCB](#design-du-pcb)
+- [Réalisation du Shield](#réalisation-du-shield)
 - [Code Arduino](#code-arduino)
 - [Datasheet](#datasheet)
 - [Contact](#contact)
@@ -51,6 +52,38 @@ Pour produire notre shield, nous avons besoin du matériel suivant :
 
 ## Simulation sur LTSpice
 
+La résistance interne de notre capteur de graphite est de l'ordre du $\text{G}\Omega$. Le courant généré lorsque nous appliquons une tension de 5V est très faible. Pour pouvoir utiliser ce signal, nous le faisons passer par un amplificateur transimpédance. Ce montage est constitué d'un amplificateur opérationnel (AO) pour fournir un signal suffisamment large au convertisseur analogique-numérique (ADC) de l'Arduino UNO.
+
+<!---
+Add picture here
+--->
+
+Nous avons choisi un AO de type LTC1050, car il possède une capacité à accepter en entrée un courant très faible et un offset de tension bas. Nous avons besoin d'un offset faible pour ne pas fausser les valeurs de tension envoyées à l'ADC que nous aurons besoin pour la suite.
+
+Dans notre amplificateur, nous avons trois types de filtres différents :
+
+- À l'entrée, un filtre passe-bas passif (composants : $R_1, C_1$) avec une fréquence de coupure de 16Hz. Cela permet de filtrer les bruits du courant en entrée.
+- Un autre filtre passe-bas actif de fréquence de coupure de 1.6Hz (composants : $R_3, C_4$) couplé à l'AO. Ce filtre permet d'enlever la composante du bruit à 50Hz du réseau.
+- En sortie, un dernier filtre (composants : $R_6, C_2$) de 1.6kHz qui permet de retirer le bruit créé pendant le traitement i.e. bruits des alimentations, de l'horloge...
+
+La résistance $R_5$ est placé en amont de l'AO pour le protéger contre des décharges électrostatiques. Pour notre simulation, nous avons placé la capacité $C_3$ de sorte à ce qu'elle filtre le bruit de l'alimentation. Ainsi, la résistance $R_2$ sera remplacé par une résistance variable (un potentiomètre digital) qui va nous permettre de régler le gain de notre AO en fonction de notre besoin.
+
+Une photo pour montrer que notre montage permet à amplifier notre signal du capteur :
+
+<!--
+Add picture here
+-->
+
+Le signal de sortie est amplifié à 1V, ce qui sera assez pour que notre Arduino puisse le mesurer.
+
+Ensuite, la réponse lorsque nous simulons un courant alternatif pour vérifier que le bruit est bien filtré :
+
+<!--
+Add picture here
+-->
+
+Le bruit du réseau est atténué d'environ 72dB.
+
 ## Design du PCB
 
 Pour réaliser notre printed circuit board (PCB), nous avons utilisé le logiciel KiCAD 9.0. Dans le logiciel, nous disposons de plusieurs outils de design comme la vue schématique des composants et la vue design du PCB.
@@ -75,6 +108,20 @@ La beauté du logiciel est due au fait que nous pouvons générer une vue 3D du 
 ![pcb-3d](/Photos/PCB-3D.png)
 
 Vous pouvez retrouver toutes les ressources de KiCAD dans notre [dossier KiCAD](/KiCAD/projet-capteur/).
+
+## Réalisation du Shield
+
+Avec l'aide de Catherine Crouzet (aka Cathy pour les 4GP), nous avons fabriqué notre propre PCB. Après avoir envoyé notre fichier Gerber, qui sert comme masque de gravure, Cathy a placé ce masque sur une couche fine de cuivre sur une plaquette d'epoxy. Ensuite, il faut isoler la plaquette, puis l'expose aux UV. Une fois terminer, elle plonge la plaquette dans un bain révélateur afin de retirer la résine non-isolée. Finalement, elle nettoie la plaquette avec de l'acétone pour enlever la résine restante.
+
+Nous avons ensuite effectué au perçage de notre plaquette grâce à une perceuse. On pourra ensuite poser et souder nos composants sur le PCB.
+
+<!--
+Photo here ffs
+-->
+
+Voici une photo du PCB sur l'Arduino UNO avec tout les composants poser dessus :
+
+![pcb-sensor](/Datasheet/Cover/PCB-Sensor.jpg)
 
 ## Code Arduino
 
