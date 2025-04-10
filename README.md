@@ -6,21 +6,12 @@ Projet réalisé dans le cadre du cours "du capteur au banc de test", lors du de
 
 L'objectif de ce projet est de pouvoir réaliser, étape par étape, un dispositif qui nous permettra de mesurer une déformation d'un capteur low-tech.
 
-## Ma todo liste
-
-- [x] Creer le depot
-- [x] Modifier le fichier `README.md`
-- [x] Commencer KiCad
-- [x] Imprimer le PCB
-- [ ] Finir le code arduino
-- [ ] Realiser le banc de test  
-
 ## Sommaire
 
 - [Contexte](#contexte)
-- [Ma todo liste](#ma-todo-liste)
 - [Sommaire](#sommaire)
 - [Livrables](#livrables)
+- [Matériel nécessaire](#matériel-nécessaire)
 - [Simulation sur LTSpice](#simulation-sur-ltspice)
 - [Design du PCB](#design-du-pcb)
 - [Réalisation du Shield](#réalisation-du-shield)
@@ -54,9 +45,7 @@ Pour produire notre shield, nous avons besoin du matériel suivant :
 
 La résistance interne de notre capteur de graphite est de l'ordre du $\text{G}\Omega$. Le courant généré lorsque nous appliquons une tension de 5V est très faible. Pour pouvoir utiliser ce signal, nous le faisons passer par un amplificateur transimpédance. Ce montage est constitué d'un amplificateur opérationnel (AO) pour fournir un signal suffisamment large au convertisseur analogique-numérique (ADC) de l'Arduino UNO.
 
-<!---
-Add picture here
---->
+![ltspice-circuit](/Datasheet/Cover/TransimpedanceAmp.png)
 
 Nous avons choisi un AO de type LTC1050, car il possède une capacité à accepter en entrée un courant très faible et un offset de tension bas. Nous avons besoin d'un offset faible pour ne pas fausser les valeurs de tension envoyées à l'ADC que nous aurons besoin pour la suite.
 
@@ -70,16 +59,20 @@ La résistance $R_5$ est placé en amont de l'AO pour le protéger contre des d�
 
 Une photo pour montrer que notre montage permet à amplifier notre signal du capteur :
 
+![ltspice-amp](/Photos/LTSpice-1V.png)
+
 <!--
-Add picture here
+Add own picture
 -->
 
 Le signal de sortie est amplifié à 1V, ce qui sera assez pour que notre Arduino puisse le mesurer.
 
 Ensuite, la réponse lorsque nous simulons un courant alternatif pour vérifier que le bruit est bien filtré :
 
+![ltspice-ac](/Photos/LTSpice-AC.png)
+
 <!--
-Add picture here
+Add own picture
 -->
 
 Le bruit du réseau est atténué d'environ 72dB.
@@ -115,9 +108,7 @@ Avec l'aide de Catherine Crouzet (aka Cathy pour les 4GP), nous avons fabriqué 
 
 Nous avons ensuite effectué au perçage de notre plaquette grâce à une perceuse. On pourra ensuite poser et souder nos composants sur le PCB.
 
-<!--
-Photo here ffs
--->
+![pcb-back](/Photos/PCB-Face-Arriere.jpg)
 
 Voici une photo du PCB sur l'Arduino UNO avec tout les composants poser dessus :
 

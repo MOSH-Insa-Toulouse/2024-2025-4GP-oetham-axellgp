@@ -25,7 +25,7 @@
 #define servomoteur             9
 #define ssMCPin                 10
 
-#define etat                    5
+#define etat                    7
 #define bufferSize              16
 
 const byte csPin               = 10;
@@ -147,7 +147,9 @@ void loop() {
     case 7 :
 
       float val = graphiteSensor();
-      Serial.println(val);
+      dtostrf(val, 5, 2, bufferInput);
+      Serial.println(bufferInput);
+      delay(500);
 
       break;
       
@@ -203,7 +205,7 @@ int servoMotor() {
   int val = 0;
   static int xd = 0;
   char str[256];
-  int i = 0;
+  int i = 0, bytes;
 
   if(Serial.available()) {
     do{
@@ -223,6 +225,7 @@ int servoMotor() {
   }
   
   return val;
+}
 
 /*    
 *     Menu Choice :
