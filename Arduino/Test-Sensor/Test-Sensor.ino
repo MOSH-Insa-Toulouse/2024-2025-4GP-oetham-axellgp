@@ -30,7 +30,7 @@
 
 const byte csPin               = 10;
 const int maxPositions         = 256;
-const long rAB                 = 60000;
+const long rAB                 = 33800;
 const byte rWiper              = 125;
 const byte pot0                = 0x11;
 const byte pot0shutdown        = 0x21;
@@ -48,6 +48,7 @@ SoftwareSerial mySerial(RX_PIN, TX_PIN);
 volatile int encoder0Pos = 0;
 int posmoteur = 0, oldPOSencodeur = 0;
 unsigned long previousMillis = 0, previousMillis2 = 0;
+float moy = 0;
 char OK_Blue = '0', chaine[10], valueChar;
 
 
@@ -73,7 +74,7 @@ void setup() {
   pinMode(flexPin,INPUT); 
   
   myServo.attach(9);
-  setPotWiper(pot0, 200);
+  setPotWiper(pot0, 100);
   Serial.begin(9600);
   mySerial.begin(9600);
   Serial.println(F("[Arduino Sensor - HAHN & LONGEPIERRE]"));
@@ -145,9 +146,14 @@ void loop() {
       break;
 
     case 7 :
-
-      float val = graphiteSensor();
-      dtostrf(val, 5, 2, bufferInput);
+      moy = 0;
+      for (int i = 0; i < 10; i++) {
+        float val = graphiteSensor();
+        moy += val;
+      }
+      moy /= 10;
+      
+      dtostrf(moy, 5, 2, bufferInput);
       Serial.println(bufferInput);
       delay(500);
 
@@ -196,9 +202,9 @@ float graphiteSensor() {
   int VCC = 5;
   float Vgraph = ADCgraph * VCC / 1024.0;
   
-  //Res = R2 * (1 + R4/R3) * (VCC / Vgraph) - R2 - R1; 
+  Res = R2 * (1 + R4/R3) * (VCC / Vgraph) - R2 - R1; 
 
-  return Vgraph;
+  return Res;
 }
 
 int servoMotor() {

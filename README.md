@@ -17,6 +17,7 @@ L'objectif de ce projet est de pouvoir réaliser, étape par étape, un disposit
 - [Réalisation du Shield](#réalisation-du-shield)
 - [Code Arduino](#code-arduino)
 - [Datasheet](#datasheet)
+- [Conclusion](#conclusion)
 - [Contact](#contact)
 
 ## Livrables
@@ -121,6 +122,28 @@ Le code Arduino a été développé sur l'IDE Arduino 2.3.5. Nous avons utilisé
 L'emplacement de notre [code Arduino](/Arduino/Test-Sensor/).
 
 ## Datasheet
+
+Pour effectuer des mesures, nous avons utilisé une impression 3D de demi-cercles avec des rayons différents.
+
+![bench-3D](/Photos/Bench-3D.jpg)
+
+Les diamètres des demi-cercles vont de 2cm jusqu'à 5cm avec un pas de 0.5cm. Avec la déformation $\epsilon = \frac{e}{D}$ et la résistance électrique $\frac{\delta R}{R_0}$, nous pouvons tracer les courbes caractéristiques pour des crayons de type F, HB, 4B, 5B :
+
+![graph-compression](/Datasheet/Cover/Bench-Compression.png)
+
+![graph-relaxation](/Datasheet/Cover/Bench-Relaxation.png)
+
+<!--
+Ajouter les conclusions + tard
+-->
+
+Il se trouve que le flex sensor commercial est bien plus sensible à la déformation d'autant plus il peut être reutiliser beaucoup plus de fois que notre capteur en papier. Notre capteur a chaque utilisation perd de la precision ce qui diminue fortement notre precision dans la mesure de la resistance.
+
+## Conclusion
+
+Toutes les mesures faites avec notre capteur low-tech doivent être prise à la légère. Nous n'avons aucun moyen pour bien s'assurer que chaque capteur de papier va se comporter de la même manière. D'autant plus, nous n'avons aucun moyen pour bien s'assurer que la quantité déposée sur le capteur est la même. Ceci induit une grosse variation dans la résistance mesurée. À chaque reprise, il y a un nouveau paramètre qui n'est pas le même i.e. on n'écrit pas de la même manière, on applique une force différente pour écrire, on n'applique pas le même angle de déformation, etc. Il faudrait à tout prix trouver une méthode pour homogénéiser le dépôt du graphite de chaque capteur.  
+
+Notre capteur en papier est un super outil pour pouvoir comprendre et conceptionner notre propre PCB et ainsi un banc de test afin de mesurer des quantités physiques qui peuvent nous intéresser. Effectivement, le capteur présente beaucoup de lacunes de précisions et le matériel à disposition ne fonctionne tous pas parfaitement. Le capteur en papier ne peut faire concurrence à un capteur de type commercial comme notre capteur de flexion. Ce capteur a sa place en tant qu'outil pédagogique et il restera ainsi.
 
 ## Contact
 

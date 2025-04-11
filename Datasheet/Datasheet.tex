@@ -112,28 +112,26 @@ sensor.
     \end{minipage}
 \end{figure}
 
+\textbf{Note:} Both pins are invertible.
+
 \setcounter{table}{1}
 
 \section{Electrical Specifications}
-All specifications are in $-40\degree C \leq T_A \leq 85\degree C$ unless otherwise noted.
 
 \begin{table}[h]
 \begin{threeparttable}
-\caption{Example Data Sheet Specifications}
-\begin{tabularx}{\textwidth}{l | c | c c c | c | X}
+\caption{Values of the resistance of each type of pencil}
+\begin{tabularx}{\textwidth}{l | c | c | c | c | X}
     \thickhline
-    \textbf{Parameter} & \textbf{Symbol} & \textbf{Min.} & \textbf{Typ.} & \textbf{Max.} &
-    \textbf{Unit} & \textbf{Conditions} \\
+    \textbf{Pencil Type} & \textbf{Min.} & \textbf{Typ.} & \textbf{Max.} &
+    \textbf{Unit} & \textbf{Note} \\
     \hline
-    Page width  & $p_w$ & 20.9 & 21.0 & 21.1 & cm & \multirow{2}{*}{Standard A4 paper} \\
-    Page height & $p_h$ & 29.6 & 29.7 & 29.8 & cm &  \\
-    \hline
-    Insulation voltage & $E_{max}$\tnote{1} & & 1 & & kV & \\
+    F  & 2.1 & 2.5 & 5 & $\text{M}\Omega$ & \multirow{4}{*}{Values highly depend on the amount of graphite deposited} \\
+    HB & 1.9 & 2.7 & 3.8 & $\text{M}\Omega$ &  \\
+    4B & 0.9 & 1.1 & 1.5 & $\text{M}\Omega$ &  \\
+    5B & 0.8 & 0.9 & 1.3 & $\text{M}\Omega$ &  \\
     \thickhline
 \end{tabularx}
-\begin{tablenotes}
-\item[1]{Based on characterization data, not tested in production.}
-\end{tablenotes}
 \end{threeparttable}
 \end{table}
 
@@ -161,7 +159,23 @@ All specifications are in $-40\degree C \leq T_A \leq 85\degree C$ unless otherw
 \end{threeparttable}
 \end{table}
 
-\textbf{Note:}
+\newpage
+
+\section{Performance Characteristics}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Cover/Bench-Compression.png}
+    \captionsetup{justification=centering}
+	\caption{\small{Characteristics of a compression-like deformation}}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Cover/Bench-Relaxation.png}
+    \captionsetup{justification=centering}
+	\caption{\small{Characteristics of a relaxation-like deformation}}
+\end{figure}
 
 \newpage
 
