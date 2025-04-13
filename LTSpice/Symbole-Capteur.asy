@@ -1,0 +1,22 @@
+Version 4
+SymbolType BLOCK
+RECTANGLE Normal 116 55 -109 -41
+CIRCLE Normal 23 34 -11 2
+CIRCLE Normal 17 18 10 10
+CIRCLE Normal 2 19 -5 10
+ARC Normal 16 5 23 16 23 15 16 5
+ARC Normal -10 13 -5 6 -5 6 -11 13
+ARC Normal -5 24 17 29 -5 24 19 25
+TEXT -54 -33 Left 1 Boite magique
+PIN 96 -16 RIGHT 8
+PINATTR PinName cp
+PINATTR SpiceOrder 1
+PIN 96 16 RIGHT 8
+PINATTR PinName cn
+PINATTR SpiceOrder 2
+PIN -96 -16 LEFT 8
+PINATTR PinName gp
+PINATTR SpiceOrder 3
+PIN -96 16 LEFT 8
+PINATTR PinName gn
+PINATTR SpiceOrder 4
