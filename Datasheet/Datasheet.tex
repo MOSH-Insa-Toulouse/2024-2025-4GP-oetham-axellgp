@@ -39,7 +39,7 @@
 \begin{itemize}
 \item{Low power usage (3.3V-5V)}
 \item{Low cost and low tech}
-\item{Plug-in-play}
+\item{Plug-n-play}
 \item{Ergonomic and easily repairable}
 \end{itemize}
 
@@ -52,7 +52,7 @@
 \end{itemize}
 
 \section{General Description}
-This innovative sensor, conceptionalized and made by students from the Applied Physics Department of INSA Toulouse, is a tool inspired by the publication 
+This innovative sensor, conceptualized and made by students from the Applied Physics Department of INSA Toulouse, is a tool inspired by the publication 
 \textit{Pencil Drawn Strain Gauges and Chemiresistors on Paper}\footnotemark[\value{footnote}]. This research paper provides a simple, cost-efficient, and highly pedagogical tool for students 
 to master their skills in Physics, Electronics, and Sensor Design. The sensor presented in the publication is a simple piece of paper with a layer of graphite 
 on top of it, deposited with a pencil. 
@@ -104,9 +104,9 @@ sensor.
                 \thickhline
                 \textbf{Parameter} & \textbf{Pin} & \textbf{Symbol} \\
                 \hline
-                Supply Voltage & V$_{\text{CC}}$ & 1 \\ 
+                Supply Voltage & 1 & V$_{\text{CC}}$ \\ 
                 \hline
-                Out Sensor & V$_{\text{out}}$ & 2 \\
+                Out Sensor & 2 & V$_{\text{out}}$ \\
                 \thickhline
             \end{tabularx}
     \end{minipage}
@@ -121,19 +121,21 @@ sensor.
 \begin{table}[h]
 \begin{threeparttable}
 \caption{Values of the resistance of each type of pencil}
-\begin{tabularx}{\textwidth}{l | c | c | c | c | X}
+\begin{tabularx}{\textwidth}{l | c | c | c | X}
     \thickhline
     \textbf{Pencil Type} & \textbf{Min.} & \textbf{Typ.} & \textbf{Max.} &
-    \textbf{Unit} & \textbf{Note} \\
+    \textbf{Unit} \\
     \hline
-    F  & 2.1 & 2.5 & 5 & $\text{M}\Omega$ & \multirow{4}{*}{Values highly depend on the amount of graphite deposited} \\
-    HB & 1.9 & 2.7 & 3.8 & $\text{M}\Omega$ &  \\
-    4B & 0.9 & 1.1 & 1.5 & $\text{M}\Omega$ &  \\
-    5B & 0.8 & 0.9 & 1.3 & $\text{M}\Omega$ &  \\
+    F  & 2.1 & 2.5 & 5 & $\text{M}\Omega$ \\    % & \multirow{4}{*}{Values highly depend on the amount of graphite deposited} \\
+    HB & 1.9 & 2.7 & 3.8 & $\text{M}\Omega$ \\  % &  \\
+    4B & 0.9 & 1.1 & 1.5 & $\text{M}\Omega$ \\  % &  \\
+    5B & 0.8 & 0.9 & 1.3 & $\text{M}\Omega$ \\  % &  \\
     \thickhline
 \end{tabularx}
 \end{threeparttable}
 \end{table}
+
+\textbf{Note:} Values highly depend on the amount of graphite deposited ($\pm$ 5\%). 
 
 \section{Absolute Maximum Ratings}
 

@@ -1,69 +1,107 @@
-#include <Servo.h>
-#include <SoftwareSerial.h>
-#include <Adafruit_SSD1306.h>
-#include <Wire.h>
-#include <SPI.h>
+#include <Servo.h>                          // Librairie Servo Moteur
+#include <SoftwareSerial.h>                 // Librairie Bluetooth
+#include <Adafruit_SSD1306.h>               // Librairie OLED
+#include <Wire.h>                           // Utilisation de l'OLED
+#include <SPI.h>                            // Librairie Potentiometre 
 #include <RunningAverage.h>
 #include <stdlib.h>
 
-#define WAIT_DELAY               5000
+/* 
+*   CONSTANTES ET DECLARATIONS : OLED
+*/
+
 #define nombreDePixelsEnLargeur 128         // Taille de l'écran OLED, en pixel, au niveau de sa largeur
 #define nombreDePixelsEnHauteur 64          // Taille de l'écran OLED, en pixel, au niveau de sa hauteur
 #define brocheResetOLED         -1          // Reset de l'OLED partagé avec l'Arduino (d'où la valeur à -1, et non un numéro de pin)
-#define adresseI2CecranOLED     0x3C   
+#define adresseI2CecranOLED     0x3C 
+
+Adafruit_SSD1306 ecranOLED(nombreDePixelsEnLargeur, nombreDePixelsEnHauteur, &Wire, brocheResetOLED);
+
+/*
+*   CONSTANTES ET DECLARATIONS : BLUETOOTH
+*/
+
+#define RX_PIN                  7
+#define TX_PIN                  8
+
+SoftwareSerial mySerial(RX_PIN, TX_PIN);
+
+/*
+*   CONSTANTES ET DECLARATIONS : POTENTIOMETRE DIGITAL
+*/
+
 #define MCP_NOP                 0b00000000
 #define MCP_WRITE               0b00010001
 #define MCP_SHTDWN              0b00100001
-
-#define encoder0PinA            2  //CLK Output A Do not use other pin for clock as we are using interrupt
-#define encoder0PinB            4  //DT Output B
-#define RX_PIN                  7
-#define TX_PIN                  8
-#define Switch                  6 // Switch connection if available
-#define flexPin                 A1
-#define amplificateur           A0
-#define servomoteur             9
 #define ssMCPin                 10
 
-#define etat                    7
-#define bufferSize              16
-
-const byte csPin               = 10;
+const int csPin                = 10;
 const int maxPositions         = 256;
 const long rAB                 = 33800;
 const byte rWiper              = 125;
 const byte pot0                = 0x11;
 const byte pot0shutdown        = 0x21;
-
 float R3;
-char bufferInput[bufferSize];
 
-// Définir les broches pour SoftwareSerial
-Adafruit_SSD1306 ecranOLED(nombreDePixelsEnLargeur, nombreDePixelsEnHauteur, &Wire, brocheResetOLED);
-Servo myServo;
-RunningAverage myRA(20);
-SoftwareSerial mySerial(RX_PIN, TX_PIN);
+/*
+*   CONSTANTES ET DECLARATIONS : ENCODEUR ROTATOIRE
+*/
 
-// byte position = 0;
+#define encoder0PinA            2  // CLK Output A Do not use other pin for clock as we are using interrupt
+#define encoder0PinB            4  // DT Output B
+#define Switch                  6  // Switch connection if available
+
 volatile int encoder0Pos = 0;
-int posmoteur = 0, oldPOSencodeur = 0;
+int oldPOSencodeur = 0;
+
+/*
+*   CONSTANTES ET DECLARATIONS : SERVO MOTEUR
+*/
+
+#define servoPin                9
+
+Servo myServo;
+
+int posmoteur = 0;
+
+/*
+*   CONSTANTES ET DECLARATIONS : FLEX SENSOR
+*/
+
+#define flexPin                 A1
+
+/*
+*   CONSTANTES ET DECLARATIONS : GRAPHITE SENSOR
+*/
+
+#define graphitePin             A0
+
 unsigned long previousMillis = 0, previousMillis2 = 0;
 float moy = 0;
 char OK_Blue = '0', chaine[10], valueChar;
 
+// #define WAIT_DELAY              5000
+
+#define etat                    5
+#define bufferSize              16
+#define baudRate                9600
+
+char bufferInput[bufferSize];
+
+RunningAverage myRA(20);
 
 void setup() {
   myRA.clear();
+
   pinMode (ssMCPin, OUTPUT); //select pin output
   digitalWrite(ssMCPin, HIGH); //SPI chip disabled
-  SPI.begin(); 
- 
-  
+  SPI.begin();
   
   if(!ecranOLED.begin(SSD1306_SWITCHCAPVCC, adresseI2CecranOLED))
     while(1);     
 
   ecranOLED.clearDisplay();
+
   pinMode(encoder0PinA, INPUT); 
   digitalWrite(encoder0PinA, HIGH);       // turn on pullup resistor
 
@@ -72,18 +110,23 @@ void setup() {
 
   attachInterrupt(0, doEncoder, RISING);
   pinMode(flexPin,INPUT); 
+
+  Serial.begin(baudRate);
+  mySerial.begin(baudRate);
+
+  myServo.attach(servoPin);
   
-  myServo.attach(9);
-  setPotWiper(pot0, 100);
-  Serial.begin(9600);
-  mySerial.begin(9600);
+  delay(1000);
+
   Serial.println(F("[Arduino Sensor - HAHN & LONGEPIERRE]"));
+
+  Calibration();
 }
 
 void loop() {
   switch(etat){
     case 1:
-      Serial.println(analogRead(flexPin));
+      //Serial.println(analogRead(flexPin));
       break;
 
     case 2 :
@@ -172,6 +215,33 @@ void setPotWiper(int addr, int pos) {
   R3 = ((rAB * pos) / maxPositions) + rWiper;
 }
 
+void Calibration() {
+  float target = 3.0, tol = 0.15;
+  int pos = 0;
+  Serial.println("HELLO");
+
+  do {
+    setPotWiper(pot0, pos);
+    pos += 5;
+    delay(200);
+  } while ((graphiteSensor() < (target - tol) || graphiteSensor() > (target + tol)) && pos <= 265);
+  
+  dtostrf(pos, 5, 2, chaine);
+  
+  if (pos < 265) {
+    Serial.println(F("Potentiometer calibrated at position : "));
+    Serial.print(chaine);
+
+    float val = graphiteSensor();
+    dtostrf(val, 10, 2, chaine);
+    Serial.println(F("Value : "));
+    Serial.print(chaine);
+  }
+  else {
+    Serial.println(F("Potentiometer not calibrated at target 3V"));
+  }
+} 
+
 void doEncoder() {
   if (OK_Blue != '1') {
     if (digitalRead(encoder0PinA)==HIGH && digitalRead(encoder0PinB)==HIGH) {
@@ -198,13 +268,13 @@ float flexSensor() {
 
 float graphiteSensor() {
   float R2 = 100000, R1 = 10000, R4 = 100000, Res;
-  float ADCgraph = analogRead(amplificateur);
+  float ADCgraph = analogRead(graphitePin);
   int VCC = 5;
   float Vgraph = ADCgraph * VCC / 1024.0;
   
-  Res = R2 * (1 + R4/R3) * (VCC / Vgraph) - R2 - R1; 
+  // Res = R2 * (1 + R4/R3) * (VCC / Vgraph) - R2 - R1; 
 
-  return Res;
+  return Vgraph;
 }
 
 int servoMotor() {
@@ -213,23 +283,6 @@ int servoMotor() {
   char str[256];
   int i = 0, bytes;
 
-  if(Serial.available()) {
-    do{
-      bufferInput[i] = (char) Serial.read();
-      i++;
-      delay(5);
-    } while(Serial.available () > 0);
-
-    Serial.println(bufferInput);
-    Serial.println("DONE");
-
-    bytes = atoi(bufferInput);
-
-    if (bytes == 1234) {
-      Serial.println("GOOD JOB");
-    }
-  }
-  
   return val;
 }
 
@@ -300,6 +353,7 @@ void menuChoice() {
       switch (abs(encoder0Pos)) {
         case 0 :
           value = graphiteSensor();
+          delay(200);
           dtostrf(value, 5, 2, chaine);
           Serial.println(chaine);
           ecranOLED.clearDisplay();
@@ -312,7 +366,7 @@ void menuChoice() {
           ecranOLED.setTextSize(1);
           ecranOLED.println(F(""));
           ecranOLED.print(chaine);
-          ecranOLED.print(F(" Ohms"));
+          // ecranOLED.print(F(" Ohms"));
           ecranOLED.display();
           break;
 
@@ -359,7 +413,6 @@ void menuChoice() {
         OK_Blue = '1';
     }
   }
-  // delay(500);
 }
 
 void SPIWrite(uint8_t cmd, uint8_t data, uint8_t ssPin) // SPI write the command and data to the MCP IC connected to the ssPin
@@ -374,6 +427,43 @@ void SPIWrite(uint8_t cmd, uint8_t data, uint8_t ssPin) // SPI write the command
   digitalWrite(ssPin, HIGH);// SS pin high to de-select chip
   SPI.endTransaction();
 }
+
+/* Communicate
+  OPTION 1 :
+
+  if(Serial.available()) {
+    do{
+      bufferInput[i] = (char) Serial.read();
+      i++;
+      delay(5);
+    } while(Serial.available () > 0);
+
+    Serial.println(bufferInput);
+    Serial.println("DONE");
+
+    bytes = atoi(bufferInput);
+
+    if (bytes == 1234) {
+      Serial.println("GOOD JOB");
+    }
+  }
+
+  OPTION 2 : 
+
+  if (btSerial.available()) {
+    byte c = btSerial.read();
+    Serial.write(c);
+    Serial.println("");
+  }
+
+  // Überprüfe, ob Daten vom seriellen Port eingehen
+  if (Serial.available() > 0) {
+    byte b = Serial.parseInt(); // lit un entier (ex: "200\n" => 200)
+    Serial.print("Envoyé vers Bluetooth : ");
+    Serial.println(b);
+    btSerial.write(b); // envoie le byte brut
+  }
+*/
 
 
 
