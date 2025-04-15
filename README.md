@@ -78,6 +78,8 @@ Add own picture
 
 Le bruit du réseau est atténué d'environ 72dB.
 
+La simulation se trouve dans [ce dossier](/LTSpice/).
+
 ## Design du PCB
 
 Pour réaliser notre printed circuit board (PCB), nous avons utilisé le logiciel KiCAD 9.0. Dans le logiciel, nous disposons de plusieurs outils de design comme la vue schématique des composants et la vue design du PCB.
@@ -138,6 +140,8 @@ Ajouter les conclusions + tard
 -->
 
 Il se trouve que le flex sensor commercial est bien plus sensible à la déformation d'autant plus il peut être reutiliser beaucoup plus de fois que notre capteur en papier. Notre capteur a chaque utilisation perd de la precision ce qui diminue fortement notre precision dans la mesure de la resistance.
+
+La datasheet se trouve [ici](/Datasheet/).
 
 ## Conclusion
 
