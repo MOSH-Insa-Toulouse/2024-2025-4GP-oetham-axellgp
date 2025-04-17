@@ -76,10 +76,12 @@ int posmoteur = 0;
 
 #define graphitePin             A0
 
-unsigned long previousMillis = 0;
-float moy = 0;
-char chaine[10], valueChar, cringe[16];
-int inMenu = 0;
+unsigned long previousMillis = 0;         // Important to check the time that has passed since the last millis()
+float moy = 0;                            // Initialize mean to 0 in order to computate the average
+char chaine[10],                          // Placeholder char variable of size 10 to display on the OLED
+  cringe[16];                             // Placeholder char variable of size 16 to display on the OLED (to accommodate the larger values of the graphite resistance) i.e. I was annoyed when I found the solution. The name of the variable is fitting...
+int inMenu = 0,                           // Value to see if the user has selected the menu
+  Calibrated = 0;                         // Value to check if Calibration() has been completed
 
 // #define WAIT_DELAY              5000
 
@@ -127,9 +129,17 @@ void setup() {
   Calibration();
 }
 
+/*
+*   Dsiplays the menu on the OLED screen
+*/
+
 void loop() {
   menuChoice();
 }
+
+/*
+*   Reads if switch button on the rotary encoder has been pushed
+*/
 
 void getSW() {
 
@@ -141,6 +151,11 @@ void getSW() {
   }
 }
 
+/*
+*   Sets the position of the Digital Potentiometer
+*/
+
+
 void setPotWiper(int addr, int pos) {
   pos = constrain(pos, 0, 255);
   digitalWrite(csPin, LOW);
@@ -150,6 +165,10 @@ void setPotWiper(int addr, int pos) {
 
   R3 = ((rAB * pos) / maxPositions) + rWiper;
 }
+
+/*
+*   Calibrates the received signal at 3V with a tolerance of 0.15V
+*/
 
 void Calibration() {
   float target = 3.0, tol = 0.15;
@@ -175,7 +194,12 @@ void Calibration() {
   else {
     Serial.println(F("Potentiometer not calibrated at target 3V"));
   }
+  Calibrated = 1;
 } 
+
+/*
+*   Reads the rotary encoder's rotation (clockwise or counter-clockwise)
+*/
 
 void doEncoder() {
   if (inMenu == 0) {
@@ -191,6 +215,10 @@ void doEncoder() {
   //Serial.println (encoder0PinA, DEC);  //Angle = (360 / Encoder_Resolution) * encoder0Pos
 }
 
+/*
+*   Retrieves the Flex Sensor's value 
+*/
+
 float flexSensor() {
   float ADCflex = analogRead(flexPin);
   int VCC = 5; // 5V
@@ -201,16 +229,29 @@ float flexSensor() {
   return Rflex;
 }
 
+/*
+*   Retrieves the Graphite Sensor's value 
+*/
+
 float graphiteSensor() {
   float R2 = 100000, R1 = 10000, R4 = 100000, Res;
   float ADCgraph = analogRead(graphitePin);
   int VCC = 5;
   float Vgraph = ADCgraph * VCC / 1024.0;
   
-  Res = R2 * (1 + R4/R3) * (VCC / Vgraph) - R2 - R1; 
+  Res = R2 * (1 + R4/R3) * (VCC / Vgraph) - R2 - R1;
 
-  return Res;
+  if (Calibrated == 0) {
+    return Vgraph;
+  }
+  else {
+    return Res;
+  }
 }
+
+/*
+*   Sends the value to the Servo Motor
+*/
 
 int servoMotor() {
   int val = 0;
@@ -318,7 +359,11 @@ void menuChoice() {
   }
 }
 
-void SPIWrite(uint8_t cmd, uint8_t data, uint8_t ssPin) // SPI write the command and data to the MCP IC connected to the ssPin
+/*
+*   Writes the command and data through SPI to the MCP IC connected to the ssPin
+*/
+
+void SPIWrite(uint8_t cmd, uint8_t data, uint8_t ssPin)
 {
   SPI.beginTransaction(SPISettings(14000000, MSBFIRST, SPI_MODE0)); //https://www.arduino.cc/en/Reference/SPISettings
   
