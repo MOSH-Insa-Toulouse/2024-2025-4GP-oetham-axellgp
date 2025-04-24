@@ -91,6 +91,9 @@ int inMenu = 0,                           // Value to see if the user has select
 
 char bufferInput[bufferSize];
 
+byte c = 0;                               // Quand on appelle un Serial.println(c), il faut que c ait une valeur. Sinon, ca va faire buguer l'OLED 
+char constant = '0';
+
 RunningAverage myRA(20);
 
 void setup() {
@@ -126,7 +129,7 @@ void setup() {
 
   Serial.println(F("[Arduino Sensor - HAHN & LONGEPIERRE]"));
 
-  Calibration();
+  // Calibration();                       // Oublie pas a enlever le commentaire
 }
 
 /*
@@ -225,6 +228,16 @@ float flexSensor() {
   int R_DIV = 10000;
   float Vflex = ADCflex * VCC / 1024.0;
   float Rflex = R_DIV * (VCC / Vflex - 1.0);
+  byte toBlue = ADCflex / 4.0;
+
+  // mySerial.write(toBlue);
+
+  if (mySerial.available() > 0) {
+    c = mySerial.read();
+    c = (int) c;                              // A remplacer si besoin 
+    Serial.write(c);
+    Serial.println("");
+  }
 
   return Rflex;
 }
