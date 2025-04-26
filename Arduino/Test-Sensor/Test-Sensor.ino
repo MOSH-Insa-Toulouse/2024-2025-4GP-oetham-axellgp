@@ -34,7 +34,7 @@ SoftwareSerial mySerial(RX_PIN, TX_PIN);
 #define MCP_WRITE               0b00010001
 #define MCP_SHTDWN              0b00100001
 #define ssMCPin                 10
-
+int buffer1[512];
 const int csPin                = 10;
 const int maxPositions         = 256;
 const long rAB                 = 33800;
@@ -79,7 +79,9 @@ int posmoteur = 0;
 unsigned long previousMillis = 0;         // Important to check the time that has passed since the last millis()
 float moy = 0;                            // Initialize mean to 0 in order to computate the average
 char chaine[10],                          // Placeholder char variable of size 10 to display on the OLED
-  cringe[16];                             // Placeholder char variable of size 16 to display on the OLED (to accommodate the larger values of the graphite resistance) i.e. I was annoyed when I found the solution. The name of the variable is fitting...
+  cringe[16],  
+  gain[10],
+  posServo[10];                           // Placeholder char variable of size 16 to display on the OLED (to accommodate the larger values of the graphite resistance) i.e. I was annoyed when I found the solution. The name of the variable is fitting...
 int inMenu = 0,                           // Value to see if the user has selected the menu
   Calibrated = 0;                         // Value to check if Calibration() has been completed
 
@@ -90,7 +92,7 @@ int inMenu = 0,                           // Value to see if the user has select
 #define baudRate                9600
 
 char bufferInput[bufferSize];
-
+byte Cgain = 0;
 byte c = 0;                               // Quand on appelle un Serial.println(c), il faut que c ait une valeur. Sinon, ca va faire buguer l'OLED 
 char constant = '0';
 
@@ -120,7 +122,7 @@ void setup() {
   attachInterrupt(0, doEncoder, RISING);
   pinMode(flexPin, INPUT); 
 
-  Serial.begin(baudRate);
+  Serial.begin(9600);
   mySerial.begin(baudRate);
 
   myServo.attach(servoPin);
@@ -129,7 +131,7 @@ void setup() {
 
   Serial.println(F("[Arduino Sensor - HAHN & LONGEPIERRE]"));
 
-  // Calibration();                       // Oublie pas a enlever le commentaire
+  Calibration();                       // Oublie pas a enlever le commentaire
 }
 
 /*
@@ -138,6 +140,36 @@ void setup() {
 
 void loop() {
   menuChoice();
+  if (mySerial.available() > 0) {
+              c = mySerial.read();
+              c=c+0;
+              if (c=='f')
+                if (mySerial.read()=='f')
+                  if (mySerial.read()=='f')
+                   if (mySerial.read()=='f'){
+                    encoder0Pos=1;
+                    inMenu=1;}
+              if (c=='g')
+                if (mySerial.read()=='g')
+                  if (mySerial.read()=='g')
+                   if (mySerial.read()=='g'){
+                    encoder0Pos=0;
+                    inMenu=1;}
+              if (c=='s')
+                if (mySerial.read()=='s')
+                  if (mySerial.read()=='s')
+                   if (mySerial.read()=='s'){
+                    encoder0Pos=2;
+                    inMenu=1;}
+              if (c=='c')
+                if (mySerial.read()=='c')
+                  if (mySerial.read()=='c')
+                   if (mySerial.read()=='c'){
+                    Calibration();
+                    }
+            clearRead(); 
+              
+            }
 }
 
 /*
@@ -191,6 +223,8 @@ void Calibration() {
 
     float val = graphiteSensor();
     dtostrf(val, 10, 2, chaine);
+    dtostrf(pos, 5, 0, gain);
+    Cgain=pos;
     Serial.println(F("Value : "));
     Serial.print(chaine);
   }
@@ -222,6 +256,11 @@ void doEncoder() {
 *   Retrieves the Flex Sensor's value 
 */
 
+void clearRead(){
+  while (mySerial.available() > 0){
+    int a = mySerial.read();}
+}
+
 float flexSensor() {
   float ADCflex = analogRead(flexPin);
   int VCC = 5; // 5V
@@ -230,14 +269,9 @@ float flexSensor() {
   float Rflex = R_DIV * (VCC / Vflex - 1.0);
   byte toBlue = ADCflex / 4.0;
 
-  // mySerial.write(toBlue);
-
-  if (mySerial.available() > 0) {
-    c = mySerial.read();
-    c = (int) c;                              // A remplacer si besoin 
-    Serial.write(c);
-    Serial.println("");
-  }
+  mySerial.write(toBlue);
+  
+  
 
   return Rflex;
 }
@@ -253,7 +287,7 @@ float graphiteSensor() {
   float Vgraph = ADCgraph * VCC / 1024.0;
   
   Res = R2 * (1 + R4/R3) * (VCC / Vgraph) - R2 - R1;
-
+  mySerial.write(ADCgraph/4);
   if (Calibrated == 0) {
     return Vgraph;
   }
@@ -287,7 +321,7 @@ void menuChoice() {
   unsigned long currentMillis = millis();
   float value;
 
-  if (currentMillis - previousMillis >= 500) {
+  if (currentMillis - previousMillis >= 200) {
     previousMillis = currentMillis;
 
     getSW();
@@ -318,10 +352,10 @@ void menuChoice() {
           break;
 
         case 2 :
-          ecranOLED.println("1. Graphite Sensor");         
-          ecranOLED.println("2. Flex Sensor");
+          ecranOLED.println(F("1. Graphite Sensor"));         
+          ecranOLED.println(F("2. Flex Sensor"));
           ecranOLED.setTextColor(SSD1306_BLACK, SSD1306_WHITE); 
-          ecranOLED.println("3. Servo Motor");
+          ecranOLED.println(F("3. Servo Motor"));
           break;
       }
     }  
@@ -330,8 +364,17 @@ void menuChoice() {
 
       switch (abs(encoder0Pos)) {
         case 0 :
+
+          
           value = graphiteSensor();
           dtostrf(value, 16, 2, cringe);
+          
+          if (Cgain != c){
+          dtostrf(c, 5, 0, gain);    // a corriger la c pas bon ca dois se mettre a la bonne valeur des le  debut 
+          setPotWiper(pot0, c);}
+            
+            
+
           ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
           ecranOLED.println(F("--Menu 1--"));
           ecranOLED.setTextSize(1);
@@ -339,7 +382,9 @@ void menuChoice() {
           ecranOLED.setTextSize(1);
           ecranOLED.println(F(""));
           ecranOLED.print(cringe);
-          ecranOLED.print(F(" Ohms"));
+          ecranOLED.println(F(" Ohms"));
+          ecranOLED.print(F(" Gain :"));
+          ecranOLED.print(gain);
           break;
 
         case 1 :
@@ -351,10 +396,17 @@ void menuChoice() {
           ecranOLED.println(F("Flex Sensor"));
           ecranOLED.println(F(""));
           ecranOLED.print(chaine);
-          ecranOLED.print(F(" Ohms"));
+          ecranOLED.println(F(" Ohms"));
+          
           break;
 
         case 2 :
+          
+          
+          float intposServo = abs(c/256.0 *360.0);
+          dtostrf(intposServo, 5, 3, posServo);
+          
+          
           int val = servoMotor();
           sprintf(chaine, "%d", val);
           Serial.flush();
@@ -364,7 +416,7 @@ void menuChoice() {
           ecranOLED.println(F("Servo Motor"));
           ecranOLED.println(F(""));
           ecranOLED.print(F("Position : "));
-          ecranOLED.print(chaine);
+          ecranOLED.print(posServo);
           break;
       }
     }
@@ -513,6 +565,3 @@ void SPIWrite(uint8_t cmd, uint8_t data, uint8_t ssPin)
     break;
   }
 */
-
-
-
