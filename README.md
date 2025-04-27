@@ -16,6 +16,7 @@ L'objectif de ce projet est de pouvoir réaliser, étape par étape, un disposit
 - [Design du PCB](#design-du-pcb)
 - [Réalisation du Shield](#réalisation-du-shield)
 - [Code Arduino](#code-arduino)
+- [Application MIT](#application-mit)
 - [Datasheet](#datasheet)
 - [Conclusion](#conclusion)
 - [Contact](#contact)
@@ -62,19 +63,11 @@ Une photo pour montrer que notre montage permet à amplifier notre signal du cap
 
 ![ltspice-amp](/Photos/LTSpice-1V.png)
 
-<!--
-Add own picture
--->
-
 Le signal de sortie est amplifié à 1V, ce qui sera assez pour que notre Arduino puisse le mesurer.
 
 Ensuite, la réponse lorsque nous simulons un courant alternatif pour vérifier que le bruit est bien filtré :
 
 ![ltspice-ac](/Photos/LTSpice-AC.png)
-
-<!--
-Add own picture
--->
 
 Le bruit du réseau est atténué d'environ 72dB.
 
@@ -119,9 +112,43 @@ Voici une photo du PCB sur l'Arduino UNO avec tout les composants poser dessus :
 
 ## Code Arduino
 
-Le code Arduino a été développé sur l'IDE Arduino 2.3.5. Nous avons utilisé les librairies Adafruit_SSD1306 pour piloter l'écran OLED et SoftwareSerial pour le HC-05.
+Le code Arduino a été développé sur l'IDE Arduino 2.3.5. Nous avons utilisé les librairies Adafruit_SSD1306 pour piloter l'écran OLED et SoftwareSerial pour le HC-05. L'écran OLED utilise beaucoup de RAM. Pour contourner ce problème, nous avons utilisé la fonction ```F("Enter String")``` qui envoie les données sur la mémoire flash.
 
-L'emplacement de notre [code Arduino](/Arduino/Test-Sensor/).
+Au lancement du programme, qui est situé [ici](/Arduino/Test-Sensor/), une première calibration est faite à 3V sur le potentiomètre digital pour ne pas saturer la sortie sur l'ADC de l'Arduino. Cette calibration peut être refaite avec un simple appel sur l'application. Nous avons composé un menu avec trois choix :
+
+- Menu 1 : Graphite Sensor
+- Menu 2 : Flex Sensor
+- Menu 3 : Servo Motor
+
+Le choix du menu se fait avec l'encodeur rotatoire en le tournant pour sélectionner son menu désiré puis ensuite appuyer dessus pour valider la sélection.
+
+Chaque choix du menu appelle une fonction différente qui réalise sa mesure. L'acquisition des données se fait toutes les 200ms. Pour chaque donnée, il faut convertir ce qu'on reçoit par la résolution de l'Arduino qui est de 1024 bytes. Le calcul de la résistance du capteur graphite se fait avec la formule suivante : $R_{es} = R_2 * (1 + \frac{R_4}{R_3}) * \frac{V_{CC}}{V_{graph}} - R_2 - R_1$. L'appellation des résistances est en accord avec notre schématique KiCAD.
+
+## Application MIT
+
+L'application Android a été développé sous MIT App Inventor. Elle reçoit les donnes de notre Capteur Graphite et de Flexion et nous pouvons aussi lui envoyer une position pour le Servo Moteur.
+
+![home-mit](/Android/Screenshot%20Application/AcceuilMIT.jpg)
+
+La face-avant de l'application nous donne la possibilité de rentrée dans plusieurs menus :
+
+- Capteur Graphite
+- Capteur Flexion
+- Servo Moteur
+
+Une fonctionnalité du menu Capteur Graphite est que nous pouvions calibrer directement le capteur depuis l'application s'il y a eu des changements de configuration.
+
+![graphite-mit](/Android/Screenshot%20Application/CapteurGraphiteMIT.jpg)
+
+Le menu Capteur Flexion propose un graphique où nous voyons la variation de la résistance du capteur.
+
+![flex-mit](/Android/Screenshot%20Application/FlexMIT.jpg)
+
+Le menu Servo Moteur propose une roue tactile que nous pouvons régler afin d'envoyer la position désirer du Servo Moteur.
+
+![servo-mit](/Android/Screenshot%20Application/ServoMoteurMIT.jpg)
+
+Vous pouvez vous rendre dans [ce dossier](/Android/) pour installer l'application MIT App Inventor ainsi voir les blocks de code qui contrôlent l'application.
 
 ## Datasheet
 
