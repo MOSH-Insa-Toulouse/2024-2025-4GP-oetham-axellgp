@@ -91,10 +91,10 @@ int inMenu = 0,                           // Value to see if the user has select
 #define bufferSize              16
 #define baudRate                9600
 
-char bufferInput[bufferSize];
-byte Cgain = 0;
-byte c = 0;                               // Quand on appelle un Serial.println(c), il faut que c ait une valeur. Sinon, ca va faire buguer l'OLED 
-char constant = '0';
+char bufferInput[bufferSize], constant = '0';
+
+byte c = 0, Cgain = 0;                    // Quand on appelle un Serial.println(c), il faut que c ait une valeur. Sinon, ca va faire buguer l'OLED 
+
 
 RunningAverage myRA(20);
 
@@ -122,7 +122,7 @@ void setup() {
   attachInterrupt(0, doEncoder, RISING);
   pinMode(flexPin, INPUT); 
 
-  Serial.begin(9600);
+  Serial.begin(baudRate);
   mySerial.begin(baudRate);
 
   myServo.attach(servoPin);
@@ -142,43 +142,39 @@ void setup() {
 void loop() {
   menuChoice();
   if (mySerial.available() > 0) {
-              c = mySerial.read();
-              c=c+0;
-              
-              if (c=='f')
-                if (mySerial.read()=='f')
-                  if (mySerial.read()=='f')
-                   if (mySerial.read()=='f'){
-                    encoder0Pos=1;
-                    inMenu=1;
-                    }
-              if (c=='g')
-                if (mySerial.read()=='g')
-                  if (mySerial.read()=='g')
-                   if (mySerial.read()=='g'){
-                    encoder0Pos=0;
-                    inMenu=1;
-                       // a corriger la c pas bon ca dois se mettre a la bonne valeur des le  debut 
-                    
-                     }
-              if (c=='s')
-                if (mySerial.read()=='s')
-                  if (mySerial.read()=='s')
-                   if (mySerial.read()=='s'){
-                    encoder0Pos=2;
-                    inMenu=1;
-                    }
-              if (c=='c')
-                if (mySerial.read()=='c')
-                  if (mySerial.read()=='c')
-                   if (mySerial.read()=='c'){
-                    Calibrated = 0;
-                    Calibration();
-                     
-                    }
-            
-              clearRead();
-            }
+    c = mySerial.read();
+    c = c + 0;
+    
+    if (c == 'f')
+      if (mySerial.read() == 'f')
+        if (mySerial.read() == 'f')
+          if (mySerial.read() == 'f') {
+            encoder0Pos = 1;
+            inMenu = 1;
+          }
+    if (c == 'g')
+      if (mySerial.read() == 'g')
+        if (mySerial.read() == 'g')
+          if (mySerial.read() == 'g') {
+            encoder0Pos = 0; 
+            inMenu = 1;
+          }
+    if (c == 's')
+      if (mySerial.read() == 's')
+        if (mySerial.read() == 's')
+          if (mySerial.read() == 's') {
+            encoder0Pos=2;
+            inMenu=1;
+          }
+    if (c == 'c')
+      if (mySerial.read() == 'c')
+        if (mySerial.read() == 'c')
+          if (mySerial.read() == 'c') {
+            Calibrated = 0;
+            Calibration();
+          }
+    clearRead();
+  }
 }
 
 /*
@@ -219,7 +215,6 @@ void Calibration() {
   int pos = 0;
 
   do {
-    
     setPotWiper(pot0, pos);
     pos += 2;
     delay(100);
@@ -265,12 +260,13 @@ void doEncoder() {
 }
 
 /*
-*   Retrieves the Flex Sensor's value 
+*   Clears the bluetooth's buffer
 */
 
-void clearRead(){
-  while (mySerial.available() > 0){
-    byte a = mySerial.read();}
+void clearRead() {
+  while (mySerial.available() > 0) {
+    byte a = mySerial.read();
+  }
 }
 
 float flexSensor() {
@@ -282,8 +278,6 @@ float flexSensor() {
   byte toBlue = ADCflex / 4.0;
 
   mySerial.write(toBlue);
-  
-  
 
   return Rflex;
 }
@@ -299,7 +293,8 @@ float graphiteSensor() {
   float Vgraph = ADCgraph * VCC / 1024.0;
   
   Res = R2 * (1 + R4/R3) * (VCC / Vgraph) - R2 - R1;
-  mySerial.write(ADCgraph/4);
+  mySerial.write(ADCgraph / 4);
+
   if (Calibrated == 0) {
     return Vgraph;
   }
@@ -376,25 +371,23 @@ void menuChoice() {
 
       switch (abs(encoder0Pos)) {
         case 0 :
-
-          
           value = graphiteSensor();
           dtostrf(value, 16, 2, cringe);
           
-          
-          if (c!='c')
-            if (c!='g')
-              if (c!='f')
-              if (c!='s')
-              if (c!=0)
-              if (c!=Cgain){
-                setPotWiper(pot0, c);
-                Cgain=c;
-                clearRead(); 
-              }
+          if (c != 'c')
+            if (c != 'g')
+              if (c != 'f')
+                if (c != 's')
+                  if (c != 0)
+                    if (c != Cgain) {
+                      setPotWiper(pot0, c);
+                      Cgain=c;
+                      clearRead(); 
+                    }
 
           clearRead();   
           dtostrf(Cgain, 6, 0, gain);
+
           ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
           ecranOLED.println(F("--Menu 1--"));
           ecranOLED.setTextSize(1);
@@ -410,6 +403,8 @@ void menuChoice() {
         case 1 :
           value = flexSensor();
           dtostrf(value, 5, 2, chaine);
+          clearRead(); 
+
           ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
           ecranOLED.println(F("--Menu 2--"));
           ecranOLED.setTextSize(1);
@@ -417,25 +412,21 @@ void menuChoice() {
           ecranOLED.println(F(""));
           ecranOLED.print(chaine);
           ecranOLED.println(F(" Ohms"));
-          clearRead(); 
           break;
 
         case 2 :
-          float intposServo = abs(c/256.0 *360.0);
-          if (c!='c')
-            if (c!='g')
-              if (c!='f')
-              if (c!='s')
-                      dtostrf(intposServo, 5, 3, posServo); 
-             
-              
-          
-          
-          
+          float intposServo = abs(c / 256.0 * 360.0);
+          if (c != 'c')
+            if (c != 'g')
+              if (c != 'f')
+                if (c != 's')
+                  dtostrf(intposServo, 5, 3, posServo); 
           
           int val = servoMotor();
           sprintf(chaine, "%d", val);
           Serial.flush();
+          clearRead(); 
+
           ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
           ecranOLED.println(F("--Menu 3--"));
           ecranOLED.setTextSize(1);
@@ -443,7 +434,6 @@ void menuChoice() {
           ecranOLED.println(F(""));
           ecranOLED.print(F("Position : "));
           ecranOLED.print(posServo);
-          clearRead(); 
           break;
       }
     }
@@ -467,128 +457,3 @@ void SPIWrite(uint8_t cmd, uint8_t data, uint8_t ssPin)
   digitalWrite(ssPin, HIGH);// SS pin high to de-select chip
   SPI.endTransaction();
 }
-
-/* Communicate
-  OPTION 1 :
-
-  if(Serial.available()) {
-    do{
-      bufferInput[i] = (char) Serial.read();
-      i++;
-      delay(5);
-    } while(Serial.available () > 0);
-
-    Serial.println(bufferInput);
-    Serial.println("DONE");
-
-    bytes = atoi(bufferInput);
-
-    if (bytes == 1234) {
-      Serial.println("GOOD JOB");
-    }
-  }
-
-  OPTION 2 : 
-
-  if (btSerial.available()) {
-    byte c = btSerial.read();
-    Serial.write(c);
-    Serial.println("");
-  }
-
-  // Überprüfe, ob Daten vom seriellen Port eingehen
-  if (Serial.available() > 0) {
-    byte b = Serial.parseInt(); // lit un entier (ex: "200\n" => 200)
-    Serial.print("Envoyé vers Bluetooth : ");
-    Serial.println(b);
-    btSerial.write(b); // envoie le byte brut
-  }
-
-  switch(etat){
-    case 1:
-      //Serial.println(analogRead(flexPin));
-      break;
-
-    case 2 :
-      if (mySerial.available()) {
-      // Lire les données de mySerial
-        char data_Servo = mySerial.read();
-        // Envoyer les données à Serial
-        Serial.print(data_Servo);
-        myServo.write(data_Servo);
-
-        // Increment the position of the servo motor
-        data_Servo++;
-      }
-
-      myServo.write(200);
-
-      delay(100);
-      break;
-
-    case 3 ://encodeur
-      Serial.println (encoder0Pos, DEC);
-      break;
-
-    case 4 : // bluetooth
-      if (mySerial.available()) {
-      // Lire les données de mySerial
-        byte data = mySerial.read();
-      // Envoyer les données à Serial
-        Serial.println(data);
-        Serial.println("");
-      }
-
-      // Vérifier si des données sont disponibles sur Serial
-      if (Serial.available()) {
-        // Lire les données de Serial
-        byte b = Serial.parseInt(); // lit un entier (ex: "200\n" => 200)
-        Serial.print("Envoyé vers Bluetooth : ");
-        Serial.println(b);
-        mySerial.write(b);
-      }
-      break;
-
-    case 5 : //oled
-      
-      menuChoice();
-
-      break;
-
-    case 6:
-    
-      if (oldPOSencodeur != encoder0Pos) {
-        SPIWrite(MCP_WRITE, abs(encoder0Pos)%256, ssMCPin);
-        delay(100);
-        oldPOSencodeur= encoder0Pos;
-      }
-      myRA.addValue(analogRead(flexPin));
-      
-      Serial.println(myRA.getAverage());
-
-      break;
-
-    case 7 :
-      moy = 0;
-      for (int i = 0; i < 10; i++) {
-        float val = graphiteSensor();
-        moy += val;
-      }
-      moy /= 10;
-      
-      dtostrf(moy, 5, 2, bufferInput);
-      Serial.println(bufferInput);
-      delay(500);
-
-      break;
-
-    case 8 :
-      ecranOLED.clearDisplay();                                   // Effaçage de l'intégralité du buffer
-      ecranOLED.setTextSize(2);                   // Taille des caractères (1:1, puis 2:1, puis 3:1)
-      ecranOLED.setCursor(0, 0);
-      ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
-      ecranOLED.println(F("---MENU---"));
-      ecranOLED.display();
-    break;
-  }
-*/
