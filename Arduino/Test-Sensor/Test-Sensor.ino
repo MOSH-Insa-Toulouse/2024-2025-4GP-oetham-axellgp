@@ -42,7 +42,7 @@ const byte rWiper              = 125;
 const byte pot0                = 0x11;
 const byte pot0shutdown        = 0x21;
 float R3;
-
+float intposServo =0 ;
 /*
 *   CONSTANTES ET DECLARATIONS : ENCODEUR ROTATOIRE
 */
@@ -75,7 +75,7 @@ int posmoteur = 0;
 */
 
 #define graphitePin             A0
-
+volatile int encoderFullPos = 0;
 unsigned long previousMillis = 0;         // Important to check the time that has passed since the last millis()
 float moy = 0;                            // Initialize mean to 0 in order to computate the average
 char chaine[10],                          // Placeholder char variable of size 10 to display on the OLED
@@ -255,7 +255,13 @@ void doEncoder() {
     }
     encoder0Pos %= 3;
   }
-
+  if (digitalRead(encoder0PinA)==HIGH && digitalRead(encoder0PinB)==HIGH) {
+     encoderFullPos+=18;
+   } 
+   else if (digitalRead(encoder0PinA)==HIGH && digitalRead(encoder0PinB)==LOW) {
+     encoderFullPos-=18;   
+   }
+   encoderFullPos = (encoderFullPos) %180;
   //Serial.println (encoder0PinA, DEC);  //Angle = (360 / Encoder_Resolution) * encoder0Pos
 }
 
@@ -336,7 +342,8 @@ void menuChoice() {
     ecranOLED.setTextSize(2);                                    // Taille des caractères (1:1, puis 2:1, puis 3:1)
     ecranOLED.setCursor(0, 0);
     
-    if (inMenu == 0) {             
+    if (inMenu == 0) {   
+      encoderFullPos=0;          
       ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);       // Affichage du texte en "blanc" (avec la couleur principale, en fait, car l'écran monochrome peut être coloré)
       ecranOLED.println(F("---MENU---"));
       ecranOLED.setTextSize(1);
@@ -401,6 +408,7 @@ void menuChoice() {
           break;
 
         case 1 :
+        
           value = flexSensor();
           dtostrf(value, 5, 2, chaine);
           clearRead(); 
@@ -415,18 +423,19 @@ void menuChoice() {
           break;
 
         case 2 :
-          float intposServo = abs(c / 256.0 * 360.0);
+        char stringencoderFullPos[20];
+        intposServo = abs(c / 256.0 * 360.0);
           if (c != 'c')
             if (c != 'g')
               if (c != 'f')
                 if (c != 's')
-                  dtostrf(intposServo, 5, 3, posServo); 
-          
+                  dtostrf(int(intposServo), 3, 0, posServo); 
+                  
           int val = servoMotor();
           sprintf(chaine, "%d", val);
           Serial.flush();
           clearRead(); 
-
+          dtostrf(abs(encoderFullPos), 3, 0, stringencoderFullPos);
           ecranOLED.setTextColor(SSD1306_WHITE,SSD1306_BLACK);
           ecranOLED.println(F("--Menu 3--"));
           ecranOLED.setTextSize(1);
@@ -434,6 +443,10 @@ void menuChoice() {
           ecranOLED.println(F(""));
           ecranOLED.print(F("Position : "));
           ecranOLED.print(posServo);
+          ecranOLED.print(F("+ "));
+          ecranOLED.print(stringencoderFullPos);
+          //myServo.write((valservo+abs(encoderFullPos)) % 360);
+          myServo.write((int(intposServo)+abs(encoderFullPos)) % 180);
           break;
       }
     }
