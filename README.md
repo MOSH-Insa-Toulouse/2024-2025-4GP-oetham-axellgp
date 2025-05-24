@@ -156,25 +156,23 @@ Pour effectuer des mesures, nous avons utilisé une impression 3D de demi-cercle
 
 ![bench-3D](/Photos/Bench-3D.jpg)
 
-Les diamètres des demi-cercles vont de 2cm jusqu'à 5cm avec un pas de 0.5cm. Avec la déformation $\epsilon = \frac{e}{D}$ et la résistance électrique $\frac{\delta R}{R_0}$, nous pouvons tracer les courbes caractéristiques pour des crayons de type F, HB, 4B, 5B :
+Les diamètres des demi-cercles vont de 2cm jusqu'à 5cm avec un pas de 0.5cm. Avec la déformation $\epsilon = \frac{e}{D}$ et la résistance électrique $\frac{\Delta R}{R_0}$, nous pouvons tracer les courbes caractéristiques pour des crayons de type F, HB, 4B, 5B :
 
 ![graph-compression](/Datasheet/Cover/Bench-Compression.png)
 
 ![graph-relaxation](/Datasheet/Cover/Bench-Relaxation.png)
 
-<!--
-Ajouter les conclusions + tard
--->
+D'autant plus, nous n'avons aucun moyen pour bien s'assurer que la quantité déposée sur le capteur est la même. Ainsi, à chaque mesure, il y a un nouveau paramètre qui n'est pas le même i.e. on n'écrit pas de la même manière, on applique une force différente pour écrire, on n'applique pas le même angle de déformation. Ces derniers induisent une grosse variation dans la résistance mesurée.
 
-Il se trouve que le flex sensor commercial est bien plus sensible à la déformation d'autant plus il peut être reutiliser beaucoup plus de fois que notre capteur en papier. Notre capteur a chaque utilisation perd de la precision ce qui diminue fortement notre precision dans la mesure de la resistance.
+Il se trouve que le flex sensor commercial est bien plus sensible à la déformation d'autant plus il peut être réutiliser beaucoup plus de fois que notre capteur en papier. Notre capteur a chaque utilisation perd de la précision qui impacte notre mesure de résistance. Par contre, notre capteur peut mesurer des résistances dans les $M\Omega$ comparer au flex sensor qui lui peut seulement mesurer des $k\Omega$.
 
 La datasheet se trouve [ici](/Datasheet/).
 
 ## Conclusion
 
-Toutes les mesures faites avec notre capteur low-tech doivent être prise à la légère. Nous n'avons aucun moyen pour bien s'assurer que chaque capteur de papier va se comporter de la même manière. D'autant plus, nous n'avons aucun moyen pour bien s'assurer que la quantité déposée sur le capteur est la même. Ceci induit une grosse variation dans la résistance mesurée. À chaque reprise, il y a un nouveau paramètre qui n'est pas le même i.e. on n'écrit pas de la même manière, on applique une force différente pour écrire, on n'applique pas le même angle de déformation, etc. Il faudrait à tout prix trouver une méthode pour homogénéiser le dépôt du graphite de chaque capteur.  
+Notre capteur a un super potentiel en tant que capteur industriel. Il faudrait à tout prix trouver une méthode pour homogénéiser le dépôt du graphite. Le capteur est peu cher et sensible à des variations en tension ou compression. Nous conseillons de trouver une méthode pour bien appliquer la même force, le même dépôt de graphite et aussi trouver un papier plus adapté à la déformation. Ceci permettra de réaliser un capteur plus performant avec un potentiel plus élevé pour être industrialisable.
 
-Notre capteur en papier est un super outil pour pouvoir comprendre et conceptionner notre propre PCB et ainsi un banc de test afin de mesurer des quantités physiques qui peuvent nous intéresser. Effectivement, le capteur présente beaucoup de lacunes de précisions et le matériel à disposition ne fonctionne tous pas parfaitement. Le capteur en papier ne peut faire concurrence à un capteur de type commercial comme notre capteur de flexion. Ce capteur a sa place en tant qu'outil pédagogique et il restera ainsi.
+Pour le moment, notre capteur en papier est un super outil pour pouvoir comprendre et conceptionner notre propre PCB et ainsi un banc de test afin de mesurer des quantités physiques qui peuvent nous intéresser. Effectivement, le capteur présente beaucoup de lacunes de précisions et le matériel à disposition ne fonctionne pas parfaitement. Ce capteur est l'outil pédagogique ultime et nous permet d'apprendre et de peaufiner des nouvelles connaissances.
 
 ## Contact
 
